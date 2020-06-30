@@ -12,6 +12,14 @@ import Register from '../views/Register'
 
 export default function Routes() {
   return (
+    // function requireAuth(nextState, replace) {
+    //   if (!userExists()) {
+    //     replace({
+    //       pathname: '/signin',
+    //       state: { nextPathname: nextState.location.pathname }
+    //     })
+    //   }
+    // }
     <Router>
       <div>
         

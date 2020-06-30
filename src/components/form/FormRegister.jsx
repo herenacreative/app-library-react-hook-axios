@@ -42,6 +42,7 @@ export default function FormRegister() {
         })
         .catch(function (error) {
             console.log(error)
+            console.log(error.response)
         }) 
   }
 
@@ -53,10 +54,10 @@ export default function FormRegister() {
             <form onSubmit={handleSubmit}> 
               <div className={styles.size}>
                 <Paper elevation={2}>
-                  <Input label='Username' id='user' value={userSignUp.username} onChange={handleChange} type='text' required />
-                  <Input label='Full Name' id='id' type='text'/>
-                  <Input label='Email' id='id' type='text'/>
-                  <Input label='Password' id='id' type='password'/>
+                  <Input label='Username' id='user' value={userSignUp.username} onChange={(e)=>setUserSignUp({...userSignUp, username: e.target.value})} type='text' required />
+                  <Input label='Full Name'  value={userSignUp.fullname} onChange={(e)=>setUserSignUp({...userSignUp, username: e.target.value})}  type='text'/>
+                  <Input label='Email'  value={userSignUp.email} onChange={(e)=>setUserSignUp({...userSignUp, username: e.target.value})}  type='text'/>
+                  <Input label='Password'  value={userSignUp.password} onChange={(e)=>setUserSignUp({...userSignUp, password: e.target.value})} type='password'/>
                 </Paper>
                 <Grid container className={classes.buttons}>
                   <Buttons value='Register' variant='contained' color='default' type="submit"/>

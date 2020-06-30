@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Card, Grid} from '@material-ui/core';
+import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -31,7 +31,6 @@ class BookCard extends Component{
       book_name:'',
       description:'',
       image:'',
-      spacing:2
 
 
     }
@@ -63,27 +62,18 @@ class BookCard extends Component{
 
 
 render(){
-  
   const Styles={
     root: {
       maxWidth: 345,
-      height: 345
     },
     media: {
       height: 140,
     },
   };
-
-  
   return (
     <>
-    <Grid container spacing={4}>
     {this.state.books.map((book)=>{
        return <>
-       <Grid item xs={12} sm={6} md={4}>
-        
-      
-       
     <Card style={Styles.root}>
       <CardActionArea>
         <CardMedia
@@ -104,11 +94,8 @@ render(){
         </CardContent>
       </CardActionArea>
     </Card>
-
-    </Grid>
-     </>
+    </>
      })}
-     </Grid>
     </>
   );
 }}

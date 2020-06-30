@@ -8,16 +8,22 @@ class Input extends Component {
         this.state={
             id: this.props.id,
             label: this.props.label,
-            type: this.props.type,
-            onChange: this.props.onChange
+            type: this.props.type
         }
       }
+
+    onChange = event => {
+        const { id } = this.props;
+        const value = event.target.value;
+        this.setState({ value: value });
+        return this.props.onChange(id, value);
+    }
 
     render(){
         return (
             <div>
                 <div className={styles.textfield}>
-                    <TextField id={this.state.id} label={this.state.label} onChange= {this.state.onChange} type={this.state.type} fullWidth />
+                    <TextField id={this.state.id} label={this.state.label} onChange= {this.onChange} type={this.state.type} fullWidth />
                 </div>
             </div>
         );   
