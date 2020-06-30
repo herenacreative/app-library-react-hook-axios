@@ -1,0 +1,23 @@
+.paper {
+  display: 'flex';
+  margin: 5px;
+  width: 100%;
+  height: 20px;
+}
+
+.titles{
+  left: 960px;
+  top: 207px;
+  font-family: Airbnb Cereal App;
+  font-size: 64px;
+  line-height: 0px;
+  color: #424242;
+}
+
+.typography {   
+  left: 960px;
+  font-family: Airbnb Cereal App;
+  font-size: 17px;
+  line-height: 22px;
+  color: #424242;
+}

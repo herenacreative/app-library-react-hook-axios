@@ -1,0 +1,7 @@
+.image {
+    background-image: url(https://source.unsplash.com/random);
+    background-repeat: no-repeat;
+    background-color: light;
+    background-size: cover;
+    background-position: center;
+  }
