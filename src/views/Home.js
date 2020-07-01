@@ -1,37 +1,54 @@
 import React, {Component} from 'react'
-import NavBar from '../components/Auth/NavBar'
-import BookCard from '../components/card/book'
-import Modal from '../components/modal/Modals'
-import CssBaseline from '@material-ui/core/CssBaseline';
-// import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import BookCards from '../components/card/book'
+import {CssBaseline, Container, CardMedia, Grid, Typography, Box} from '@material-ui/core';
 import AppBar from '../components/layout/AppBar'
-import axios from 'axios'
+import img from '../assets/clip-library.png'
 
 class Home extends Component{
+  constructor(props){
+    super(props)
+  }
 
   render(){
-        return(
-          <div>
-            <AppBar/>
-            {/* <NavBar/> */}
-            <React.Fragment>
-              <CssBaseline />
-              <Container fixed>
-                <h1>Home</h1>
-                <Modal/>
-                <BookCard/>
-                {/* {this.state.books.map((dataBook, index) => {
-                    return(
-                      <BookCard key={index} data={dataBook} username='id'/>
-                    )
-                })} */}
-              </Container>
-            </React.Fragment>
-          </div>
-          
-        )
+    const Styles={
+      media: {
+        height: 400,
+        maxWidth: '100%',
+      },
+      typo: {
+        paddingTop:100
+      }
     }
+    return(
+      <div>
+        <AppBar/>
+        <React.Fragment>
+          <CssBaseline />
+          <Container fixed>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={8}>
+                  <Typography style={Styles.typo}>
+                    <Box fontSize={50} m={1} fontWeight={500} letterSpacing={6} m={1}>
+                      Here Library
+                    </Box>
+                    <Box fontSize={28} m={1} letterSpacing={10} m={1}>
+                      Book is a window to the world
+                    </Box>
+                  </Typography>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <CardMedia
+                style={Styles.media}
+                image={img}/>
+              </Grid>
+            </Grid>
+              <h1>List Book</h1>
+              <BookCards/>
+          </Container>
+        </React.Fragment>
+      </div> 
+    )
+  }
 }
 
 export default Home

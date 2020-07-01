@@ -1,47 +1,21 @@
 import React, {Component} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Card, Grid} from '@material-ui/core';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import {Card, Grid, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
 import axios from 'axios'
-
-// const api = axios.create({
-//   baseURL: `http://localhost:8080/v1/books/?page=1&limit=5`
-// })
+import { Link } from 'react-router-dom';
 
 class BookCard extends Component{
-  // constructor(){
-  //   super()
-  //   api.get('/').then(res => {
-  //     console.log(res.data)
-  //   })
-  // }
-
   constructor(props){
     super(props)
     this.state={
-      username: '',
-      password: '',
-      books: [],
-      id:'',
-      book_name:'',
-      description:'',
-      image:'',
-      spacing:2
-
-
+      books: []
     }
   }
 
-  getAllProdct = () =>{
+  getAllBooks = () =>{
     const token = localStorage.getItem('token')
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/books/?page=1&limit=5',
+      url: 'http://localhost:8080/v1/books/?page=1&limit=12',
       headers: {
         Authorization: token
       }
@@ -58,58 +32,47 @@ class BookCard extends Component{
   }
 
   componentDidMount(){
-    this.getAllProdct()
+    this.getAllBooks()
   }
 
-
-render(){
+  render(){
+    const Styles={
+      root: {
+        maxWidth: 345,
+        height: 345
+      },
+      media: {
+        height: 140,
+      },
+    };
   
-  const Styles={
-    root: {
-      maxWidth: 345,
-      height: 345
-    },
-    media: {
-      height: 140,
-    },
-  };
-
-  
-  return (
-    <>
-    <Grid container spacing={4}>
-    {this.state.books.map((book)=>{
-       return <>
-       <Grid item xs={12} sm={6} md={4}>
-        
-      
-       
-    <Card style={Styles.root}>
-      <CardActionArea>
-        <CardMedia
-          style={Styles.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-           
-      
-       <Typography gutterBottom variant="h5" component="h2">
-            {book.book_name} </Typography> 
-            <Typography variant="body2" color="textSecondary" component="p">
-            {book.description}
-          </Typography>
-         
-          
-        </CardContent>
-      </CardActionArea>
-    </Card>
-
-    </Grid>
-     </>
-     })}
-     </Grid>
-    </>
+    return (
+      <>
+        <Grid container spacing={4}>
+          {this.state.books.map((book)=>{
+            return <>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card style={Styles.root}>
+                  <CardActionArea>
+                    <CardMedia
+                      style={Styles.media}
+                      image={`http://localhost:3000/uploads/${book.image}`}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                      <Link to={`/books/${book.book_id}`}>{book.book_name}</Link>
+                      </Typography> 
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        {book.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            </>
+          })}
+        </Grid>
+      </>
   );
 }}
 

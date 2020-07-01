@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
+import DetailBooks from '../components/card/DetailBooks';
 
-export default function MainFeaturedPost(props) {
-  return (
+class DetailBook extends Component {
+  constructor(props){
+    super(props)
+  }
+  render(){
+    return (
       <>
-    <h1>detail</h1>
-    </>
-  );
+       <DetailBooks match={this.props.match}/>
+      </>
+    ); 
+  }
 }
+
+export default DetailBook

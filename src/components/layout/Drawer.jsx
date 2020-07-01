@@ -11,7 +11,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import Modal from '../modal/Modals'
+import img from '../../assets/avatar3.png'
+
+import Modal from '../modal/AddBook'
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
@@ -53,16 +55,19 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large} />
-        <List component="nav" aria-label="secondary mailbox folders">
-        <ListItem  href="#simple-list">
+        <Avatar alt="Remy Sharp" src={img} className={classes.large} />
+        <List component="nav">
+        <ListItemLink href="#simple-list">
           <ListItemText primary="Explore" />
-        </ListItem>
+        </ListItemLink>
         <ListItemLink href="#simple-list">
           <ListItemText primary="History" />
         </ListItemLink>
+        <ListItemLink href="#simple-list">
+          <ListItemText primary="Logout" />
+        </ListItemLink>
         <ListItem >
-        <Modal/>
+        {/* <Modal/> */}
         </ListItem>
       </List>
     </div>

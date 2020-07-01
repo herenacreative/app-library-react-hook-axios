@@ -1,15 +1,10 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import {AppBar, Toolbar, Typography, InputBase} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Menu from '../button/Menu'
 import Drawer from '../layout/Drawer'
-
+import Modal from '../modal/AddBook'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,8 +69,12 @@ export default function SearchAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Drawer/>
-          <Menu names='All Categories'/>
-          <Menu names='All Time'/>
+          <Typography className={classes.title} variant="h6" noWrap>
+            Library
+          </Typography>
+          {/* <Menu names='All Categories'/>
+          <Menu names='All Time'/> */}
+          <Modal/>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -89,9 +88,6 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Library
-          </Typography>
         </Toolbar>
       </AppBar>
     </div>
