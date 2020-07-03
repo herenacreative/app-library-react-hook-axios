@@ -11,7 +11,8 @@ class DetailBook extends Component {
     return (
       <div>
         <Breadcrumbs aria-label="breadcrumb">
-            <Edit/><Delete/>
+            <Edit/>
+            <Delete/>
         </Breadcrumbs>
       </div>
     ); 

@@ -12,6 +12,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import img from '../../assets/avatar3.png'
+import { Link } from 'react-router-dom';
 
 import Modal from '../modal/AddBook'
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +65,7 @@ export default function TemporaryDrawer() {
           <ListItemText primary="History" />
         </ListItemLink>
         <ListItemLink href="#simple-list">
-          <ListItemText primary="Logout" />
+          <Link to={`/`}><ListItemText primary="Logout" /></Link>
         </ListItemLink>
         <ListItem >
         {/* <Modal/> */}

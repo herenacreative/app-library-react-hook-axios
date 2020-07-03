@@ -13,6 +13,7 @@ class BookCard extends Component{
 
   getAllBooks = () =>{
     const token = localStorage.getItem('token')
+    console.log(this.state.books, 'g',this.state.books.image, 'images', this.state.books.book_name,)
     axios({
       method: 'GET',
       url: 'http://localhost:8080/v1/books/?page=1&limit=12',
@@ -56,7 +57,8 @@ class BookCard extends Component{
                   <CardActionArea>
                     <CardMedia
                       style={Styles.media}
-                      image={`http://localhost:3000/uploads/${book.image}`}
+                      // src={`http://localhost:3000/uploads/${book.image}`}
+                      image="https://source.unsplash.com/random"
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
