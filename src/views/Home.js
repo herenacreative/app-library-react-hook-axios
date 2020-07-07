@@ -3,11 +3,21 @@ import BookCards from '../components/card/book'
 import {CssBaseline, Container, CardMedia, Grid, Typography, Box} from '@material-ui/core';
 import AppBar from '../components/layout/AppBar'
 import img from '../assets/clip-library.png'
+import {connect} from 'react-redux'
+import Pagination from '@material-ui/lab/Pagination';
 
 class Home extends Component{
   constructor(props){
     super(props)
   }
+
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
+
+  componentDidMount(){
+  }
+
 
   render(){
     const Styles={
@@ -22,6 +32,9 @@ class Home extends Component{
     return(
       <div>
         <AppBar/>
+        <div>
+      {/* <button onClick={refreshPage}>Click to reload!</button> */}
+    </div>
         <React.Fragment>
           <CssBaseline />
           <Container fixed>
@@ -44,6 +57,9 @@ class Home extends Component{
             </Grid>
               <h1>List Book</h1>
               <BookCards/>
+              <div>
+      <Pagination count={10} />
+      </div>
           </Container>
         </React.Fragment>
       </div> 
@@ -51,4 +67,8 @@ class Home extends Component{
   }
 }
 
-export default Home
+const mapStateToProps = (state) =>({
+  auth: state.auth
+})
+export default connect(mapStateToProps)(Home)
+

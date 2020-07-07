@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { withStyles, } from '@material-ui/core/styles';
-import {Button, Dialog, Typography, IconButton} from '@material-ui/core';
+import {Button, Dialog, Typography, TextField, Grid, IconButton, Select, MenuItem, InputLabel, FormControl} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Input from '../inputs/Input'
-import Buttons from '../inputs/Buttons'
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import axios from 'axios'
+import {connect} from 'react-redux'
+import swal from 'sweetalert2'
+import { useHistory, Link } from "react-router-dom";
+// import book from '../card/book';
+// import Buttons from '../inputs/Buttons'
 
 const styles = (theme) => ({
   root: {
@@ -20,38 +24,44 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 });
 
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
+//dialog
+  const DialogTitle = withStyles(styles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
 
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
+  const DialogContent = withStyles((theme) => ({
+    root: {
+      padding: theme.spacing(2),
+    },
+  }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
+  const DialogActions = withStyles((theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(1),
+    },
+  }))(MuiDialogActions);
 
-export default function AddBooks(props) {
+//dialog 
+
+const AddBooks = (props) => {
   const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -60,18 +70,75 @@ export default function AddBooks(props) {
   };
 
   const [AddBook, setAddBook] = useState(
-    {book_name: '', image: '', description:''}
+    {book_name: '', image: '', description:'', status:'', genre_id:'', author_id:''}
   );
-  console.log(AddBook, 'k')
+  const [Authors, setAuthors] =useState([])
+
+  const [Genres, setGenres] =useState([])
+
+  useEffect(() => {
+    console.log(Authors.author_name)
+    const token = props.auth.data.token
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8080/v1/authors?page=1&limit=100',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((res)=>{
+      console.log(res)
+      setAuthors(
+        res.data.data.results
+      )
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log(err.res)
+    })    
+  }, [])
+
+  useEffect(() => {
+    console.log(AddBook.genre_name)
+    const token = props.auth.data.token
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8080/v1/genres?page=1&limit=100',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((res)=>{
+      console.log(res)
+      setGenres(
+        res.data.data.results
+      )
+    })
+    .catch((err)=>{
+      console.log(err)
+    })    
+  }, [])
+
+  const history = useHistory();
+
+  function refreshPage() {
+    window.location.reload(false);
+    history.push("/home")
+  }
+  
+  // console.log(AddBook, 'k')
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(AddBook, 'k')
-
-    const token = localStorage.getItem('token')
+    console.log(AddBook.image, 'k')
+    // console.log(props.auth.data.token, 'token')
+    const token = props.auth.data.token
     const formData = new FormData();
     formData.append('book_name', AddBook.book_name)
-    formData.append('image', AddBook.image[0])
+    formData.append('image', AddBook.image)
+    formData.append('genre_id', AddBook.genre_id)
+    formData.append('author_id', AddBook.author_id)
     formData.append('description', AddBook.description)
+    formData.append('status', AddBook.status)
 
     axios({
       method: 'POST',
@@ -95,7 +162,6 @@ export default function AddBooks(props) {
 
   return (
     <div>
-     
       <Button variant="outlined" color="default" onClick={handleClickOpen}>
         Add Book
       </Button>
@@ -104,19 +170,57 @@ export default function AddBooks(props) {
           Add Data
         </DialogTitle>
         <form onSubmit={handleSubmit}>
+          <DialogContent dividers>
+            <Input label='Title' id='title' value={AddBook.book_name} onChange={(id, val)=>setAddBook({...AddBook, book_name: val})} type='text' />
+            <TextField style={{marginLeft: 10}} label='Url Image' onChange={(e)=>setAddBook({...AddBook, image: e.target.files[0]})} type='file' />
+            <Grid container spacing={3}>
+            <Grid item xs={12}>
+            <FormControl style={{marginLeft: 10, marginTop: 15}}>
+              <InputLabel id="demo-simple-select-label">Genre</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={AddBook.genre_id}
+                onChange={(e)=>setAddBook({...AddBook, genre_id: e.target.value})}
+                >
+                  {Genres.map((genre)=>(
+                    <MenuItem value={genre.genre_id}>{genre.genre_name}</MenuItem>
+                  ))}
+                </Select>
+            </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+            <FormControl style={{marginLeft: 10}}>
+              <InputLabel id="demo-simple-select-label">Author</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={AddBook.author_id}
+                onChange={(e)=>setAddBook({...AddBook, author_id: e.target.value})}
+                >
+                  {Authors.map((author)=>(
+                    <MenuItem value={author.author_id}>{author.author_name}</MenuItem>
+                  ))}
+                </Select>
+            </FormControl>
+            </Grid>
+            </Grid>
 
-        <DialogContent dividers>
-        <Input label='Title' id='title' value={AddBook.book_name} onChange={(id, val)=>setAddBook({...AddBook, book_name: val})} type='text' />
-        <Input label='Url Image' id='img' value={AddBook.image} onChange={(id, val)=>setAddBook({...AddBook, image: val})} type='file' />
-        <Input label='Description' id='desc' value={AddBook.description} onChange={(id, val)=>setAddBook({...AddBook, description: val})} type='text' />
-        
-        </DialogContent>
-        <DialogActions>
-        <Buttons onClose={handleClose} value='Save' type='submit' variant='contained' color='default'/>
-        </DialogActions>
+            <Input label='Description' id='desc' value={AddBook.description} onChange={(id, val)=>setAddBook({...AddBook, description: val})} type='text' />
+            <Input label='Status' id='status' value={AddBook.status} onChange={(id, val)=>setAddBook({...AddBook, status: val})} type='text' />
+          
+          </DialogContent>
+          <DialogActions>
+            <Button type='submit' variant='contained' color='default'>Save</Button>
+          </DialogActions>
         </form>
       </Dialog>
      
     </div>
   );
 }
+
+const mapStateToProps = (state) =>({
+  auth: state.auth
+})
+export default connect(mapStateToProps)(AddBooks)

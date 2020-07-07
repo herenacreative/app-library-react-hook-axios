@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import {Card, Grid, CardActionArea, CardContent, CardMedia, Typography} from '@material-ui/core';
+import {Card, Grid, CardActionArea, CardContent, CardMedia, CardActions, Typography, IconButton} from '@material-ui/core';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux'
+import swal from 'sweetalert2'
+import ZoomInTwoToneIcon from '@material-ui/icons/ZoomInTwoTone';
 
 class BookCard extends Component{
   constructor(props){
@@ -12,11 +15,12 @@ class BookCard extends Component{
   }
 
   getAllBooks = () =>{
-    const token = localStorage.getItem('token')
-    console.log(this.state.books, 'g',this.state.books.image, 'images', this.state.books.book_name,)
+    const token = this.props.auth.data.token
+    // const token = localStorage.getItem('token')
+    // console.log(this.state.books, 'g',this.state.books.image, 'images', this.state.books.book_name,)
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/books/?page=1&limit=12',
+      url: 'http://localhost:8080/v1/books/?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -39,35 +43,38 @@ class BookCard extends Component{
   render(){
     const Styles={
       root: {
-        maxWidth: 345,
+        maxWidth: 250,
         height: 345
       },
       media: {
-        height: 140,
+        height: 200,
       },
     };
   
     return (
       <>
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {this.state.books.map((book)=>{
             return <>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={3}>
                 <Card style={Styles.root}>
                   <CardActionArea>
                     <CardMedia
                       style={Styles.media}
-                      // src={`http://localhost:3000/uploads/${book.image}`}
-                      image="https://source.unsplash.com/random"
+                      image={`http://localhost:8080/uploads/${book.image}`}
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                      <Link to={`/books/${book.book_id}`}>{book.book_name}</Link>
-                      </Typography> 
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        {book.description}
+                      <Typography gutterBottom variant="button" display="block">
+                     {book.book_name} <Link to={`/home/${book.book_id}`}>
+                      <IconButton size="small"><ZoomInTwoToneIcon/> Detail</IconButton>
+                    </Link>
                       </Typography>
                     </CardContent>
+                    <CardActions>
+                    <Link to={`/home/${book.book_id}`}>
+                      <IconButton size="small"><ZoomInTwoToneIcon/> Detail</IconButton>
+                    </Link>
+                    </CardActions>
                   </CardActionArea>
                 </Card>
               </Grid>
@@ -78,4 +85,8 @@ class BookCard extends Component{
   );
 }}
 
-export default BookCard
+
+const mapStateToProps = (state) =>({
+  auth: state.auth
+})
+export default connect(mapStateToProps)(BookCard)

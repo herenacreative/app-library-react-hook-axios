@@ -8,7 +8,8 @@ class Input extends Component {
         this.state={
             id: this.props.id,
             label: this.props.label,
-            type: this.props.type
+            type: this.props.type,
+            value: this.props.value || ''
         }
       }
 
@@ -23,7 +24,7 @@ class Input extends Component {
         return (
             <div>
                 <div className={styles.textfield}>
-                    <TextField id={this.state.id} label={this.state.label} onChange= {this.onChange} type={this.state.type} fullWidth />
+                    <TextField id={this.state.id} value={this.state.value} label={this.state.label} onChange= {this.onChange} type={this.state.type} fullWidth />
                 </div>
             </div>
         );   

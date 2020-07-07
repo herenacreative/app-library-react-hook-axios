@@ -1,13 +1,14 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Paper, FormControl, FormControlLabel, Checkbox, Typography, Grid} from '@material-ui/core';
+import {Paper, FormControl, Grid} from '@material-ui/core';
 import Input from '../inputs/Input'
 import AuthHeader from '../Auth/AuthHeader'
 import CopyRightAuth from '../Auth/CopyRightAuth'
 import styles from './FormRegister.module.css';
 import Buttons from '../inputs/Buttons'
-import axios from 'axios'
 import { useHistory, Link } from "react-router-dom";
+import {connect} from 'react-redux'
+import {login} from '../../redux/actions/auth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
       }
 }));
 
-
-export default function FormLogin(props) {
+const FormLogin = (props) => {
+  
   const classes = useStyles();
 
   const [userLogin, setUserLogin] = useState(
@@ -34,24 +35,30 @@ export default function FormLogin(props) {
   const history = useHistory();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    axios({
-      method: 'POST',
-      url:'http://localhost:8080/v1/auth/login',
-      data: userLogin
+    e.preventDefault() 
+    console.log(userLogin)
+    
+    props.login(userLogin).then(() => {
+      history.push("/home")
     })
-    .then(function (response) {
-          console.log(response)
-          localStorage.setItem('token', response.data.data[0].token)
-          localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
-          history.push("/books")
-      })
-    .catch(function (error) {
-        console.log(error)
-        console.log(error.response)
-    }) 
+    // axios({
+    //   method: 'POST',
+    //   url:'http://localhost:8080/v1/auth/login',
+    //   data: userLogin
+    // })
+    // .then(function (response) {
+    //       console.log(response)
+    //       localStorage.setItem('token', response.data.data[0].token)
+    //       localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
+    //       history.push("/books")
+    //   })
+    // .catch(function (error) {
+    //     console.log(error)
+    //     console.log(error.response)
+    // }) 
   }
-
+  // console.log(props.auth)
+  // console.log(this.state.username)
   return (
       <div>
         <div className={styles.sizeAll}>
@@ -76,3 +83,10 @@ export default function FormLogin(props) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = {login}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin)

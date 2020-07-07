@@ -1,20 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, IconButton, Avatar} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { Drawer, IconButton, Avatar, List, ListItem, Button} from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import img from '../../assets/avatar3.png'
-import { Link } from 'react-router-dom';
+import img from '../../assets/avatar3.png';
+import { useHistory, Link } from "react-router-dom";
+import { logout } from '../../redux/actions/auth';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
-import Modal from '../modal/AddBook'
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
@@ -29,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TemporaryDrawer() {
+const Drawers = (props) => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -39,13 +34,20 @@ export default function TemporaryDrawer() {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
     setState({ ...state, [anchor]: open });
   };
 
   function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
   }
+
+  const history = useHistory();
+
+  const logout = () => {
+    console.log(props.history.push)
+    // props.logout();
+    props.history.push("/");
+  };
 
   const list = (anchor) => (
     <div
@@ -56,16 +58,22 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-        <Avatar alt="Remy Sharp" src={img} className={classes.large} />
+        <Avatar alt="Logo" src={img} className={classes.large} />
         <List component="nav">
-        <ListItemLink href="#simple-list">
-          <ListItemText primary="Explore" />
+        <ListItemLink>
+        <Link to={`/explore`}><Button>Explore</Button></Link>
         </ListItemLink>
-        <ListItemLink href="#simple-list">
-          <ListItemText primary="History" />
+        <ListItemLink>
+        <Link to={`/history`}><Button>History</Button></Link>
         </ListItemLink>
-        <ListItemLink href="#simple-list">
-          <Link to={`/`}><ListItemText primary="Logout" /></Link>
+        <ListItemLink>
+        <Link to={`/author`}><Button>Author</Button></Link>
+        </ListItemLink>
+        <ListItemLink>
+        <Link to={`/genre`}><Button>Genre</Button></Link>
+        </ListItemLink>
+        <ListItemLink>
+          <Button onClick={logout}>Logout</Button>
         </ListItemLink>
         <ListItem >
         {/* <Modal/> */}
@@ -73,7 +81,7 @@ export default function TemporaryDrawer() {
       </List>
     </div>
   );
-
+  
   return (
     <div>
       {['left'].map((anchor) => (
@@ -96,3 +104,11 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = {logout}
+const pushRoute = withRouter(Drawers)
+export default connect(mapStateToProps, mapDispatchToProps)(pushRoute)

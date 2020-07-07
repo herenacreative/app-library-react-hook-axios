@@ -1,0 +1,89 @@
+import React, {useEffect, useState} from 'react';
+import MaterialTable from 'material-table';
+import axios from 'axios'
+
+import {connect} from 'react-redux'
+
+const AuthorTable = (props) => {
+  const [Authors, setAuthors] = React.useState({
+    columns: [
+      { title: 'Name', field: 'name' },
+    ],
+    data: [
+      { author_name: ''}
+    ],
+  }); 
+
+  useEffect(() => {
+    console.log(Authors)
+    const token = props.auth.data.token
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8080/v1/authors?page=1&limit=15',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((res)=>{
+      console.log(res)
+      setAuthors({
+        Authors: res.data.data.results
+      })
+    })
+    .catch((err)=>{
+      console.log(err.res)
+    })    
+  }, [])
+
+  return (
+      <>
+    <MaterialTable
+      title="Data Author"
+      columns={Authors.columns}
+      data={Authors.data}
+      editable={{
+        onRowAdd: (newData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              setAuthors((prevState) => {
+                const data = [...prevState.data];
+                data.push(newData);
+                return { ...prevState, data };
+              });
+            }, 600);
+          }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              if (oldData) {
+                setAuthors((prevState) => {
+                  const data = [...prevState.data];
+                  data[data.indexOf(oldData)] = newData;
+                  return { ...prevState, data };
+                });
+              }
+            }, 600);
+          }),
+        onRowDelete: (oldData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              setAuthors((prevState) => {
+                const data = [...prevState.data];
+                data.splice(data.indexOf(oldData), 1);
+                return { ...prevState, data };
+              });
+            }, 600);
+          }),
+      }}
+    />
+    </>
+  );
+}
+
+const mapStateToProps = (state) =>({
+  auth: state.auth
+})
+export default connect(mapStateToProps)(AuthorTable)

@@ -2,26 +2,10 @@ import React from 'react';
 import {AppBar, Toolbar, Typography, InputBase} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Menu from '../button/Menu'
-import Drawer from '../layout/Drawer'
-import AddBooks from '../modal/AddBook'
-import AddAuthors from '../modal/AddAuthors'
-import AddGenres from '../modal/AddGenres';
-import Searching from '../inputs/Search'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
   },
   search: {
     position: 'relative',
@@ -64,23 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function Search() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Drawer/>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Library
-          </Typography>
-          {/* <Menu names='All Categories'/>
-          <Menu names='All Time'/> */}
-          <Searching/>
-          <AddBooks/>
-          <AddAuthors/>
-          <AddGenres/>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -94,8 +66,6 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-        </Toolbar>
-      </AppBar>
     </div>
   );
 }
