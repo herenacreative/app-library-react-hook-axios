@@ -107,8 +107,8 @@ const AuthorTable = (props) => {
            {/* <Link to={`/author/${authors.author_id}`}>
            <EditTwoToneIcon fontSize="small"/>
            </Link> */}
-            <Link to={`/author/${authors.author_id}`}><EditAuthors  match={props.match}/></Link>
-              <Button onClick={()=>DeleteAuthorId(authors.author_id)}><DeleteSweepTwoToneIcon/></Button>
+            <Link to={`/author/${authors.author_id}`}><EditAuthors authorName={authors} match={props.match}/></Link>
+            <Link to={`/author/${authors.author_id}`}> <Button onClick={()=>DeleteAuthorId(authors.author_id)}><DeleteSweepTwoToneIcon/></Button></Link>
               
          
       </ButtonGroup>

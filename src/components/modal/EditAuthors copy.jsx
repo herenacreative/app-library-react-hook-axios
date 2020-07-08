@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { withStyles, } from '@material-ui/core/styles';
-import {Button, Dialog, TextField, Typography, IconButton} from '@material-ui/core';
+import {Button, Dialog, Typography, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Input from '../inputs/Input'
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -60,18 +60,7 @@ const styles = (theme) => ({
 
 const EditAuthors = (props) => {
   const [open, setOpen] = React.useState(false);
-
-  const [EditAuthor, setEditAuthor] = useState({
-    author_name: '', author_id:''
-  });
-
   const handleClickOpen = () => {
-    console.log(props.authorName)
-    setEditAuthor({
-      ...EditAuthor,
-      author_id: props.authorName.author_id,
-      author_name: props.authorName.author_name
-    })
     setOpen(true);
   };
 
@@ -79,6 +68,7 @@ const EditAuthors = (props) => {
     setOpen(false);
   };
 
+  const [EditAuthor, setEditAuthor] = useState([]);
 
   useEffect(() => {
     const token = props.auth.data.token
@@ -92,7 +82,7 @@ const EditAuthors = (props) => {
     })
     .then((res)=>{
       setEditAuthor({
-        EditAuthor: res.data.data[0]
+        Books: res.data.data[0]
       })
     })
     .catch((err)=>{
@@ -103,16 +93,12 @@ const EditAuthors = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const token = props.auth.data.token
-    const id = props.match.params.author_id
-    const formData = new FormData();
-    formData.append('author_name', EditAuthor.author_name)
     axios({
       method: 'PUT',
-      url:'http://localhost:8080/v1/authors/' + id,
-      data: formData,
+      url:'http://localhost:8080/v1/authors/',
+      data: EditAuthor,
       headers: {
-        Authorization: token,
-        'Content-Type': 'multipart/form-data'
+        Authorization: token
       }
     })
     .then(function (response) {
@@ -143,15 +129,14 @@ const EditAuthors = (props) => {
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent dividers>
-          <TextField label='Name' value={EditAuthor.author_name} onChange={(e)=>setEditAuthor({...EditAuthor, author_name: e.target.value})} type='text' />
-           
-          {/* <Input label='Title' value={EditAuthor.author_name} onChange={(id, val)=>setEditAuthor({author_name: val})} type='text' /> */}
+
+<Input label='Title' value={EditAuthor.author_name} onChange={(id, val)=>setEditAuthor({...EditAuthor, author_name: val})} type='text' />
            
 
           </DialogContent>
           <DialogActions>
-            <Button type='submit' variant='contained' color='default'>Save</Button>
-         </DialogActions>
+            <Button onClick={refreshPage} type='submit' variant='contained' color='default'>Save</Button>
+          </DialogActions>
         </form>
       </Dialog>
     </div>

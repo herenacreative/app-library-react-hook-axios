@@ -10,6 +10,7 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import swal from 'sweetalert2'
 import { useHistory, Link } from "react-router-dom";
+import { postBook, getBook } from "../../redux/actions/book"
 // import book from '../card/book';
 // import Buttons from '../inputs/Buttons'
 
@@ -132,6 +133,7 @@ const AddBooks = (props) => {
     console.log(AddBook.image, 'k')
     // console.log(props.auth.data.token, 'token')
     const token = props.auth.data.token
+    
     const formData = new FormData();
     formData.append('book_name', AddBook.book_name)
     formData.append('image', AddBook.image)
@@ -139,25 +141,28 @@ const AddBooks = (props) => {
     formData.append('author_id', AddBook.author_id)
     formData.append('description', AddBook.description)
     formData.append('status', AddBook.status)
-
-    axios({
-      method: 'POST',
-      url:'http://localhost:8080/v1/books',
-      data: formData,
-      headers: {
-        Authorization: token,
-        'Content-Type': 'multipart/form-data'
-      }
+    props.postBook(formData, token).then(()=>{
+      props.getBook(token)
     })
-    .then(function (response) {
-          console.log(response)
-          localStorage.setItem('token', response.data.data[0].token)
-          localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
-      })
-    .catch(function (error) {
-        console.log(error)
-        console.log(error.response)
-    }) 
+
+    // axios({
+    //   method: 'POST',
+    //   url:'http://localhost:8080/v1/books',
+    //   data: formData,
+    //   headers: {
+    //     Authorization: token,
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
+    // .then(function (response) {
+    //       console.log(response)
+    //       localStorage.setItem('token', response.data.data[0].token)
+    //       localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
+    //   })
+    // .catch(function (error) {
+    //     console.log(error)
+    //     console.log(error.response)
+    // }) 
   }
 
   return (
@@ -223,4 +228,7 @@ const AddBooks = (props) => {
 const mapStateToProps = (state) =>({
   auth: state.auth
 })
-export default connect(mapStateToProps)(AddBooks)
+
+const mapDispatchToProps = {postBook, getBook}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddBooks)

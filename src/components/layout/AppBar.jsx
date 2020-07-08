@@ -2,12 +2,12 @@ import React from 'react';
 import {AppBar, Toolbar, Typography, InputBase} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Menu from '../button/Menu'
+// import Menu from '../inputs/Dropdown'
 import Drawer from '../layout/Drawer'
 import AddBooks from '../modal/AddBook'
 import AddAuthors from '../modal/AddAuthors'
 import AddGenres from '../modal/AddGenres';
-import Searching from '../inputs/Search'
+import Searching from '../modal/Search'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar(props) {
   const classes = useStyles();
 
   return (
