@@ -51,31 +51,38 @@ class BookCard extends Component{
   }
 
   render(){ 
+    const Styles={
+      root: {
+        maxWidth: 250,
+        height: 345
+      },
+      media: {
+        height: 200,
+      },
+    };
+  
 console.log(this.state.books, 'state')
     return (
       <>
         <Grid container spacing={3}>
-          {this.state.books.map((b)=>{
+        {this.state.books.map((b)=>{
             return <>
               <Grid item xs={3}>
-
-                <Card className={styles.root}>
+                <Card style={Styles.root}>
                   <CardActionArea>
                     <CardMedia
-                      className={styles.media}
+                      style={Styles.media}
                       image={`http://localhost:8080/uploads/${b.image}`}
                     />
                     <CardContent>
                       <Typography gutterBottom variant="button" display="block">
-                        {b.book_name} 
-                        <Link to={`/home/${b.book_id}`}>
-                          <IconButton size="small"><ZoomInTwoToneIcon/> Detail</IconButton>
-                        </Link>
+                     {b.book_name} <Link to={`/home/${b.book_id}`}>
+                      <IconButton size="small"><ZoomInTwoToneIcon/> Detail</IconButton>
+                    </Link>
                       </Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
-
               </Grid>
             </>
           })}
