@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
-import {Card, Button, Container, Grid, Box, CardActionArea, CardContent, CardMedia, Typography, Chip} from '@material-ui/core';
+import {Button, Container, Grid, Box, CardMedia, Typography, Chip} from '@material-ui/core';
 import axios from 'axios'
-// import Button from '../inputs/Buttons'
 import ButtonModal from '../modal/Borrow'
-import img from '../../assets/2.jpeg'
 import Breadcrumbs from '../layout/Breadcrumbs'
-import EditDelete from '../layout/EditDelete'
 import {connect} from 'react-redux'
 import EditBooks from '../modal/EditBook'
-import Buttons from '../inputs/Buttons';
-// import { Link } from 'react-router-dom';
+import { deleteBook } from '../../redux/actions/book'
 
 class DetailBooks extends Component{
   constructor(props){
@@ -20,7 +16,6 @@ class DetailBooks extends Component{
   }
 
   getDetailBooks = () =>{
-    // const token = localStorage.getItem('token')
     const token = this.props.auth.data.token
     const id = this.props.match.params.book_id
     axios({
@@ -45,20 +40,22 @@ class DetailBooks extends Component{
     // const token = localStorage.getItem('token')
     const token = this.props.auth.data.token
     const id = this.props.match.params.book_id
-    axios({
-      method: 'DELETE',
-      url: 'http://localhost:8080/v1/books/' + id,
-      headers: {
-        Authorization: token
-      }
-    })
-    .then((res)=>{
-      console.log(res)
-      this.setState(res.data.data)
-    })
-    .catch((err)=>{
-      console.log(err.res)
-    })
+    this.props.deleteBook(token, id)
+    window.location.reload();
+    // axios({
+    //   method: 'DELETE',
+    //   url: 'http://localhost:8080/v1/books/' + id,
+    //   headers: {
+    //     Authorization: token
+    //   }
+    // })
+    // .then((res)=>{
+    //   console.log(res)
+    //   this.setState(res.data.data)
+    // })
+    // .catch((err)=>{
+    //   console.log(err.res)
+    // })
   }
 
 
@@ -99,7 +96,7 @@ class DetailBooks extends Component{
             <Container fixed>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={8}>
-                  <Breadcrumbs/>
+                  <Breadcrumbs title='Detail'/>
                       <Typography style={Styles.typo}>
                         <Chip label={book.genre_name} style={{marginRight: 5}} color="primary" />
                         <Chip label={book.status} />
@@ -120,8 +117,11 @@ class DetailBooks extends Component{
                       style={Styles.media}
                       image={`http://localhost:8080/uploads/${book.image}`}/>
                     </div>
-                    <EditBooks bookDetail={book} match={this.props.match}/>
-                    <Button onClick={()=>this.DeleteBookId(book.book_id)} variant='contained' color='default'>Delete</Button>
+                    <EditBooks 
+                      bookDetail={book} 
+                      match={this.props.match}
+                    />
+                    <Button style={{marginTop: 10}} onClick={()=>this.DeleteBookId(book.book_id)} variant='contained' color='default'>Delete</Button>
                   </Grid>
                 </Grid>
               </Container>
@@ -134,4 +134,6 @@ class DetailBooks extends Component{
 const mapStateToProps = (state) =>({
   auth: state.auth
 })
-export default connect(mapStateToProps)(DetailBooks)
+
+const mapDispatchToProps = {deleteBook}
+export default connect(mapStateToProps, mapDispatchToProps)(DetailBooks)

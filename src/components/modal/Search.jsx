@@ -78,13 +78,13 @@ const Search = (props) => {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect((PageNumber) => {
     setLoading(true)
     const token = props.auth.data.token
     // let search = qs.parse(props.history.location)
     axios({
       method: 'GET',
-      url: `http://localhost:8080/v1/books?`,
+      url: `http://localhost:8080/v1/books?page=${PageNumber}`,
       headers: {
         Authorization: token
       }

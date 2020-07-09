@@ -11,6 +11,8 @@ import {connect} from 'react-redux'
 import swal from 'sweetalert2'
 import { useHistory, Link } from "react-router-dom";
 import { postBook, getBook } from "../../redux/actions/book"
+import { getAuthor } from "../../redux/actions/author"
+import { getGenre} from "../../redux/actions/genre"
 // import book from '../card/book';
 // import Buttons from '../inputs/Buttons'
 
@@ -78,52 +80,54 @@ const AddBooks = (props) => {
   const [Genres, setGenres] =useState([])
 
   useEffect(() => {
-    console.log(Authors.author_name)
+    console.log(props.getAuthor, 'get')
     const token = props.auth.data.token
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/v1/authors?page=1&limit=100',
-      headers: {
-        Authorization: token
-      }
-    })
-    .then((res)=>{
-      console.log(res)
-      setAuthors(
-        res.data.data.results
-      )
-    })
-    .catch((err)=>{
-      console.log(err)
-      console.log(err.res)
-    })    
+    props.getAuthor(token)
+    // axios({
+    //   method: 'GET',
+    //   url: 'http://localhost:8080/v1/authors?page=1&limit=100',
+    //   headers: {
+    //     Authorization: token
+    //   }
+    // })
+    // .then((res)=>{
+    //   console.log(res)
+    //   setAuthors(
+    //     res.data.data.results
+    //   )
+    // })
+    // .catch((err)=>{
+    //   console.log(err)
+    //   console.log(err.res)
+    // })    
   }, [])
 
   useEffect(() => {
     console.log(AddBook.genre_name)
     const token = props.auth.data.token
-    axios({
-      method: 'GET',
-      url: 'http://localhost:8080/v1/genres?page=1&limit=100',
-      headers: {
-        Authorization: token
-      }
-    })
-    .then((res)=>{
-      console.log(res)
-      setGenres(
-        res.data.data.results
-      )
-    })
-    .catch((err)=>{
-      console.log(err)
-    })    
+    props.getGenre(token)
+    // axios({
+    //   method: 'GET',
+    //   url: 'http://localhost:8080/v1/genres?page=1&limit=100',
+    //   headers: {
+    //     Authorization: token
+    //   }
+    // })
+    // .then((res)=>{
+    //   console.log(res)
+    //   setGenres(
+    //     res.data.data.results
+    //   )
+    // })
+    // .catch((err)=>{
+    //   console.log(err)
+    // })    
   }, [])
 
   const history = useHistory();
 
   function refreshPage() {
-    window.location.reload(false);
+    window.location.reload();
     history.push("/home")
   }
   
@@ -144,6 +148,8 @@ const AddBooks = (props) => {
     props.postBook(formData, token).then(()=>{
       props.getBook(token)
     })
+    window.location.reload();
+    history.push("/home")
 
     // axios({
     //   method: 'POST',
@@ -188,8 +194,8 @@ const AddBooks = (props) => {
                 value={AddBook.genre_id}
                 onChange={(e)=>setAddBook({...AddBook, genre_id: e.target.value})}
                 >
-                  {Genres.map((genre)=>(
-                    <MenuItem value={genre.genre_id}>{genre.genre_name}</MenuItem>
+                  {props.genre.data.map((Genre)=>(
+                    <MenuItem value={Genre.genre_id}>{Genre.genre_name}</MenuItem>
                   ))}
                 </Select>
             </FormControl>
@@ -203,8 +209,8 @@ const AddBooks = (props) => {
                 value={AddBook.author_id}
                 onChange={(e)=>setAddBook({...AddBook, author_id: e.target.value})}
                 >
-                  {Authors.map((author)=>(
-                    <MenuItem value={author.author_id}>{author.author_name}</MenuItem>
+                  {props.author.data.map((Author)=>(
+                    <MenuItem value={Author.author_id}>{Author.author_name}</MenuItem>
                   ))}
                 </Select>
             </FormControl>
@@ -226,9 +232,11 @@ const AddBooks = (props) => {
 }
 
 const mapStateToProps = (state) =>({
-  auth: state.auth
+  auth: state.auth,
+  author: state.author,
+  genre: state.genre
 })
 
-const mapDispatchToProps = {postBook, getBook}
+const mapDispatchToProps = {postBook, getBook, getAuthor, getGenre}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBooks)

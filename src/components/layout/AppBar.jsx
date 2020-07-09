@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppBar, Toolbar, Typography, InputBase} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -8,6 +8,8 @@ import AddBooks from '../modal/AddBook'
 import AddAuthors from '../modal/AddAuthors'
 import AddGenres from '../modal/AddGenres';
 import Searching from '../modal/Search'
+import axios from 'axios'
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,9 +66,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar(props) {
+const SearchApp = (props) => {
   const classes = useStyles();
+  const [books, setBooks] = useState('')
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setLoading(true)
+    const token = props.auth.data.token
+    // let params = props.history.location.search
+    axios({
+      method: 'GET',
+      url: `http://localhost:8080/v1/books`,
+      headers: {
+        Authorization: token
+      }
+    })
+    .then((res)=>{
+      console.log(res)
+      setBooks(
+        res.data.data.results
+      )
+      setLoading(false)
+    })
+    .catch((err)=>{
+      console.log(err)
+      console.log(err.res)
+    })    
+  }, [])
+
+  // handleSearch = (e) =>{
+  //   setBooks({
+  //     book_name: e.target.value
+  //   })
+  // }
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -77,7 +110,7 @@ export default function SearchAppBar(props) {
           </Typography>
           {/* <Menu names='All Categories'/>
           <Menu names='All Time'/> */}
-          <Searching/>
+          {/* <Searching/> */}
           <AddBooks/>
           <AddAuthors/>
           <AddGenres/>
@@ -86,6 +119,8 @@ export default function SearchAppBar(props) {
               <SearchIcon />
             </div>
             <InputBase
+            value={books.book_name}
+            onChange={(e)=>setBooks({book_name: e.target.value})}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
@@ -99,3 +134,8 @@ export default function SearchAppBar(props) {
     </div>
   );
 }
+
+const mapStateToProps = (state) =>({
+  auth: state.auth
+})
+export default connect(mapStateToProps)(SearchApp)
