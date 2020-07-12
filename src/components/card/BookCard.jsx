@@ -6,7 +6,8 @@ import {
   CardContent, 
   CardMedia,
   Typography, 
-  IconButton
+  IconButton,
+  Divider
 } from '@material-ui/core';
 import ZoomInTwoToneIcon from '@material-ui/icons/ZoomInTwoTone';
 import { Link } from 'react-router-dom';
@@ -28,12 +29,17 @@ class BookCard extends Component{
 
   componentDidMount(){
     this.getAllBook()
+    console.log(this.props.book, 'ini buku')
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.book, 'ini buku')
   }
 
   render(){ 
     const Styles={
       root: {
-        maxWidth: 250,
+        maxWidth: 310,
         height: 345
       },
       media: {
@@ -46,7 +52,8 @@ class BookCard extends Component{
         <Grid container spacing={3}>
         {this.props.book.data.map((b)=>{
           return <>
-            <Grid item xs={3}>
+            <Grid item xs={6} sm={3} >
+            <Link to={`/home/${b.book_id}`} style={{textDecoration: 'none'}}>
               <Card style={Styles.root}>
                 <CardActionArea>
                   <CardMedia
@@ -54,14 +61,25 @@ class BookCard extends Component{
                     image={`http://localhost:8080/uploads/${b.image}`}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="button" display="block">
-                    {b.book_name} <Link to={`/home/${b.book_id}`}>
-                    <IconButton size="small"><ZoomInTwoToneIcon/> Detail</IconButton>
-                  </Link>
+                    <Typography variant="subtitle2" gutterBottom align="center">
+                      {b.book_name}
+                    </Typography>
+                    <Divider />
+                    <Typography variant="caption" display="block" align="justify" gutterBottom>
+                      {b.description.length > 100
+													? `${b.description
+															.split(' ')
+															.join(' ')
+															.slice(0, 100)}...`
+													: `${b.description
+															.split(' ')
+															.join(' ')
+															.slice(0, b.description.length)}`} 
                     </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>
+              </Link>
             </Grid>
           </>
         })}

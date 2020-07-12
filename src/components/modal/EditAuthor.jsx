@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { withStyles, } from '@material-ui/core/styles';
 import {Button, Dialog, TextField, Typography, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Input from '../inputs/Input'
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import axios from 'axios'
 import {connect} from 'react-redux'
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 
 const styles = (theme) => ({
@@ -28,7 +27,7 @@ const styles = (theme) => ({
   },
 });
 
-//dialog
+//////////////////////dialog////////////////////////////////
   const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
@@ -55,12 +54,10 @@ const styles = (theme) => ({
       padding: theme.spacing(1),
     },
   }))(MuiDialogActions);
-
-//dialog 
+//////////////////////dialog////////////////////////////////
 
 const EditAuthors = (props) => {
   const [open, setOpen] = React.useState(false);
-
   const [EditAuthor, setEditAuthor] = useState({
     author_name: '', author_id:''
   });
@@ -134,7 +131,7 @@ const EditAuthors = (props) => {
 
   return (
     <div>
-      <Button variant="outlined" color="default" onClick={handleClickOpen}>
+      <Button onClick={handleClickOpen}>
         <EditTwoToneIcon fontSize="small"/>
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
@@ -143,7 +140,7 @@ const EditAuthors = (props) => {
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent dividers>
-          <TextField label='Name' value={EditAuthor.author_name} onChange={(e)=>setEditAuthor({...EditAuthor, author_name: e.target.value})} type='text' />
+          <TextField label='Name' value={EditAuthor.author_name} onChange={(e)=>setEditAuthor({author_name: e.target.value})} type='text' />
            
           {/* <Input label='Title' value={EditAuthor.author_name} onChange={(id, val)=>setEditAuthor({author_name: val})} type='text' /> */}
            

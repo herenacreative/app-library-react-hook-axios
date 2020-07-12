@@ -5,8 +5,8 @@ import SearchIcon from '@material-ui/icons/Search';
 // import Menu from '../inputs/Dropdown'
 import Drawer from '../layout/Drawer'
 import AddBooks from '../modal/AddBook'
-import AddAuthors from '../modal/AddAuthors'
-import AddGenres from '../modal/AddGenres';
+import AddAuthors from '../modal/AddAuthor'
+import AddGenres from '../modal/AddGenre';
 import Searching from '../modal/Search'
 import axios from 'axios'
 import {connect} from 'react-redux'
@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+    // display: 'none',
+    // [theme.breakpoints.up('sm')]: {
+    //   display: 'block',
+    // },
   },
   search: {
     position: 'relative',
@@ -70,14 +70,17 @@ const SearchApp = (props) => {
   const classes = useStyles();
   const [books, setBooks] = useState('')
   const [loading, setLoading] = useState(false);
+  const [params, setParams] = useState('')
 
   useEffect(() => {
+    // console.log(props.history.push)
     setLoading(true)
     const token = props.auth.data.token
-    // let params = props.history.location.search
+    // let params = props.location.search
+    // const params = props.history.push('')
     axios({
       method: 'GET',
-      url: `http://localhost:8080/v1/books`,
+      url: `http://localhost:8080/v1/books?search=${params}`,
       headers: {
         Authorization: token
       }
@@ -105,16 +108,16 @@ const SearchApp = (props) => {
       <AppBar position="static">
         <Toolbar>
           <Drawer/>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Library
-          </Typography>
+          <div className={classes.title} noWrap>
+            <Searching/>
+          </div>
           {/* <Menu names='All Categories'/>
           <Menu names='All Time'/> */}
-          {/* <Searching/> */}
-          <AddBooks/>
-          <AddAuthors/>
-          <AddGenres/>
-          <div className={classes.search}>
+          
+          {/* <AddBooks/>
+          {/* <AddAuthors/> */}
+          {/* <AddGenres/> */}
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -127,8 +130,8 @@ const SearchApp = (props) => {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+            /> */}
+          {/* </div> */}
         </Toolbar>
       </AppBar>
     </div>

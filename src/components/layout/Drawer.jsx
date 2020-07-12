@@ -67,12 +67,6 @@ const Drawers = (props) => {
         <Link to={`/history`}><Button>History</Button></Link>
         </ListItemLink>
         <ListItemLink>
-        <Link to={`/author`}><Button>Author</Button></Link>
-        </ListItemLink>
-        <ListItemLink>
-        <Link to={`/genre`}><Button>Genre</Button></Link>
-        </ListItemLink>
-        <ListItemLink>
           <Button onClick={logout}>Logout</Button>
         </ListItemLink>
         <ListItem >

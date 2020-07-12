@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import TableAuthor from '../components/table/TableAuthor'
+import TableBook from '../components/table/TableBook'
 import NavBar from '../components/layout/NavBar'
 
-class Author extends Component {
+class Book extends Component {
   constructor(props){
     super(props)
   }
@@ -11,10 +11,10 @@ class Author extends Component {
     return (
       <>
       <NavBar/>
-      <TableAuthor match={this.props.match}/>
+      <TableBook match={this.props.match}/>
       </>
     ); 
   }
 }
 
-export default Author
+export default Book

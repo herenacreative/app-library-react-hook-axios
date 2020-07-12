@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import BookCards from '../components/card/BookCard'
 import {CssBaseline, Container, CardMedia, Grid, Typography, Box} from '@material-ui/core';
 import AppBar from '../components/layout/AppBar'
+import NavBar from '../components/layout/NavBar'
 import img from '../assets/clip-library.png'
 import {connect} from 'react-redux'
 import Pagination from '@material-ui/lab/Pagination';
@@ -10,7 +11,7 @@ class Home extends Component{
   constructor(props){
     super(props)
 
-    // console.log(this.props.history.location.search, 'his')
+  // console.log(this.props.history, 'his')
   }
 
   // function refreshPage() {
@@ -30,6 +31,7 @@ class Home extends Component{
     return(
       <div>
         <AppBar/>
+        {/* <NavBar/> */}
         <React.Fragment>
           <CssBaseline />
           <Container fixed>

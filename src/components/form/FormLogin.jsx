@@ -9,6 +9,7 @@ import Buttons from '../inputs/Buttons'
 import { useHistory, Link } from "react-router-dom";
 import {connect} from 'react-redux'
 import {login} from '../../redux/actions/auth'
+import Swal from 'sweetalert2'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,10 +37,17 @@ const FormLogin = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault() 
-    console.log(userLogin)
-    
+    // console.log(userLogin)  
     props.login(userLogin).then(() => {
-      history.push("/home")
+      // history.push("/home")
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Success',
+        timer:1500
+      }).then((result) => {
+        if(result)
+        history.push("/home")
+      })
     })
     // axios({
     //   method: 'POST',
@@ -52,10 +60,25 @@ const FormLogin = (props) => {
     //       localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
     //       history.push("/books")
     //   })
-    // .catch(function (error) {
-    //     console.log(error)
-    //     console.log(error.response)
-    // }) 
+    // .then(() => {
+    //   Swal.fire({
+    //     icon: 'success',
+    //     title: 'Login Success',
+    //     timer:1500
+    //   }).then((result) => {
+    //     if(result)
+    //     history.push("/home")
+    //   })
+    // })
+    .catch(function (error) {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Ooops',
+          text: 'username or password no valid',
+          timer: 1500
+        })
+    }) 
   }
   // console.log(props.auth)
   // console.log(this.state.username)

@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { withStyles, } from '@material-ui/core/styles';
-import {Button, Dialog, Typography, IconButton} from '@material-ui/core';
+import {Button, Dialog, TextField, Typography, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Input from '../inputs/Input'
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import axios from 'axios'
 import {connect} from 'react-redux'
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 
 const styles = (theme) => ({
@@ -28,7 +27,7 @@ const styles = (theme) => ({
   },
 });
 
-//dialog
+///////////////////////////dialog///////////////////////////////////
   const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
@@ -55,13 +54,20 @@ const styles = (theme) => ({
       padding: theme.spacing(1),
     },
   }))(MuiDialogActions);
+///////////////////////////dialog///////////////////////////////////
 
-//dialog 
-
-const EditAuthors = (props) => {
+const EditGenre = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [EditAuthor, setEditAuthor] = useState([]);
+  const [genres, setGenre] = useState({
+    genre_id: '', genre_name:''
+  });
+
   const handleClickOpen = () => {
+    setGenre({
+      ...genres,
+      // genre_id: props.genreName.genre_id,
+      genre_name: props.genreName.genre_name
+    })
     setOpen(true);
   };
 
@@ -71,33 +77,37 @@ const EditAuthors = (props) => {
 
   useEffect(() => {
     const token = props.auth.data.token
-    const id = props.match.params.author_id
+    const id = props.match.params.genre_id
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/authors/' + id,
+      url: 'http://localhost:8080/v1/genres/' + id,
       headers: {
         Authorization: token
       }
     })
     .then((res)=>{
-      setEditAuthor({
-        Books: res.data.data[0]
+      setGenre({
+        genres: res.data.data[0]
       })
     })
     .catch((err)=>{
-      console.log(err.res)
+      console.log(err)
     })    
   }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const token = props.auth.data.token
+    const id = props.match.params.genre_id
+    const formData = new FormData();
+    formData.append('genre_name', genres.genre_name)
     axios({
       method: 'PUT',
-      url:'http://localhost:8080/v1/authors/',
-      data: EditAuthor,
+      url:'http://localhost:8080/v1/genres/' + id,
+      data: formData,
       headers: {
-        Authorization: token
+        Authorization: token,
+        'Content-Type': 'multipart/form-data'
       }
     })
     .then(function (response) {
@@ -114,28 +124,25 @@ const EditAuthors = (props) => {
 
   function refreshPage() {
     window.location.reload(false);
-    history.push("/author")
+    history.push("/genre")
   }
 
   return (
     <div>
-      <Button variant="outlined" color="default" onClick={handleClickOpen}>
+      <Button onClick={handleClickOpen}>
         <EditTwoToneIcon fontSize="small"/>
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Edit Author
+          Edit Genre
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent dividers>
-
-<Input label='Title' value={EditAuthor.author_name} onChange={(id, val)=>setEditAuthor({...EditAuthor, author_name: val})} type='text' />
-           
-
+            <TextField label='Name' value={genres.genre_name} onChange={(e)=>setGenre({...genres, genre_name: e.target.value})} type='text' />
           </DialogContent>
           <DialogActions>
-            <Button onClick={refreshPage} type='submit' variant='contained' color='default'>Save</Button>
-          </DialogActions>
+            <Button type='submit' variant='contained' color='default'>Save</Button>
+         </DialogActions>
         </form>
       </Dialog>
     </div>
@@ -145,4 +152,4 @@ const EditAuthors = (props) => {
 const mapStateToProps = (state) =>({
   auth: state.auth
 })
-export default connect(mapStateToProps)(EditAuthors)
+export default connect(mapStateToProps)(EditGenre)

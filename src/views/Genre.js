@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Tables from '../components/table/TableGenre'
-import AppBar from '../components/layout/AppBar'
+// import AppBar from '../components/layout/AppBar'
+import NavBar from '../components/layout/NavBar'
 
-class Author extends Component {
+class Genre extends Component {
   constructor(props){
     super(props)
   }
@@ -10,11 +11,11 @@ class Author extends Component {
   render(){
     return (
       <>
-      <AppBar/>
+      <NavBar/>
       <Tables match={this.props.match}/>
       </>
     ); 
   }
 }
 
-export default Author
+export default Genre

@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-export const getBook = token =>{
+export const getBook = (token, params = "") =>{
+    const getID = params ? `/${params}` : '';
     return{
         type: "GET_BOOK",
         payload: axios({
             method: 'GET',
-            url: 'http://localhost:8080/v1/books?page=1&limit=100',
+            url: `http://localhost:8080/v1/books${getID}`,
             headers: {
               Authorization: token
             }
