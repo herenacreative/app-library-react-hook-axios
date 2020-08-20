@@ -79,7 +79,7 @@ const EditBooks = (props) => {
   const [open, setOpen] = React.useState(false);
   const [Books, setBooks] = useState({
     book_name: "",
-    image: "",
+    // image: "",
     description: "",
     status: "",
     author_name: "",
@@ -95,7 +95,7 @@ const EditBooks = (props) => {
       book_id,
       description,
       genre_name,
-      image,
+      // image,
       status,
       stock,
     });
@@ -131,7 +131,7 @@ const EditBooks = (props) => {
     const id = props.match.params.book_id;
     const formData = new FormData();
     formData.append("book_name", Books.book_name);
-    formData.append("image", Books.image);
+    // formData.append("image", Books.image);
     formData.append("genre_id", Books.genre_id);
     formData.append("author_id", Books.author_id);
     formData.append("description", Books.description);
@@ -141,7 +141,7 @@ const EditBooks = (props) => {
       props.getBook(token);
     });
     window.location.reload();
-    history.push(`/book/${id}`);
+    // history.push(`/book/${id}`);
   };
 
   return (

@@ -82,6 +82,11 @@ const Drawers = (props) => {
         <div className={classes.toolbar} />
         <Avatar alt="Logo" src={img} className={classes.avatar} />
         <List component="nav">
+        <ListItemLink>
+          <Link to={`/home`}>
+            <Button>Home</Button>
+          </Link>
+        </ListItemLink>
             <ListItemLink>
                 <Link to={`/explore`}>
                     <Button>Explore</Button>

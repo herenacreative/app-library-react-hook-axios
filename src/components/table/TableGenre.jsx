@@ -43,7 +43,7 @@ const TableGenre = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/genres?page=1&limit=100',
+      url: 'http://http://54.85.133.10/library/v1/genres?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -56,19 +56,21 @@ const TableGenre = (props) => {
      })
   }, [])
 
-  const handleDelete= () =>{
+  const handleDelete= (id) =>{
+    console.log(props.auth.data.token, 'g')
     const token = props.auth.data.token
-    const id = props.match.params.author_id
+    // const id = props.match.params.author_id
     axios({
       method: 'DELETE',
-      url: 'http://localhost:8080/v1/genres/' + id,
+      url: 'http://http://54.85.133.10/library/v1/genres/' + id,
       headers: {
         Authorization: token
       }
     })
     .then((res)=>{
       console.log(res)
-      setGenres(res.data.data)
+      window.location.reload();
+      // setGenres(res.data.data)
     })
     .catch((err)=>{
       console.log(err.res)
@@ -97,23 +99,23 @@ const TableGenre = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {genres.map(Genre => (
-                <TableRow key={Genre.genre_id}>
+              {genres.map(data => (
+                <TableRow key={data.genre_id}>
                   <TableCell>
-                    <Link to={`/genre/${Genre.genre_id}`}>
+                    <Link to={`/genre/${data.genre_id}`}>
                       <EditGenre 
-                        genreName={Genre} 
+                        genreName={data} 
                         match={props.match}
                       />
                     </Link>
-                    <Link to={`/genre/${Genre.genre_id}`}> 
-                      <Button onClick={()=>handleDelete(Genre.Genre_id)}>
+                    {/* <Link to={`/genre/${Genre.genre_id}`}>  */}
+                      <Button onClick={()=>handleDelete(data.genre_id)}>
                         <DeleteSweepTwoToneIcon/>
                       </Button>
-                    </Link>
+                    {/* </Link> */}
                   </TableCell>
                   <TableCell  align="right" component="th" scope="row">
-                    {Genre.genre_name}
+                    {data.genre_name}
                   </TableCell>
                 </TableRow>
               ))}

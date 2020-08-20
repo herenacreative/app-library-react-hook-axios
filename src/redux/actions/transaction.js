@@ -5,7 +5,7 @@ export const postBorrow = (formData, token) => {
     type: "POST_BORROW",
     payload: axios({
       method: "POST",
-      url: "http://localhost:8080/v1/borrow",
+      url: "http://http://54.85.133.10/library/v1/borrow",
       data: formData,
       headers: {
         Authorization: token,
@@ -19,7 +19,7 @@ export const getPendingBorrow = (book_id, user_id, token) => {
     type: "GET_PENDING_BORROW",
     payload: axios({
       method: "POST",
-      url: `http://localhost:8080/v1/borrow/${book_id}/${user_id}`,
+      url: `http://http://54.85.133.10/library/v1/borrow/${book_id}/${user_id}`,
       headers: {
         Authorization: token,
       },
@@ -32,7 +32,7 @@ export const postReturn = (formData, token) => {
     type: "POST_RETURN",
     payload: axios({
       method: "POST",
-      url: "http://localhost:8080/v1/return",
+      url: "http://http://54.85.133.10/library/v1/return",
       data: formData,
       headers: {
         Authorization: token,

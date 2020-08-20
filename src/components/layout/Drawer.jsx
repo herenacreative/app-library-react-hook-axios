@@ -65,6 +65,11 @@ const Drawers = (props) => {
       </Box>
         <List component="nav">
         <ListItemLink>
+          <Link to={`/home`}>
+            <Button>Home</Button>
+          </Link>
+        </ListItemLink>
+        <ListItemLink>
         <Link to={`/explore`}><Button>Explore</Button></Link>
         </ListItemLink>
         <ListItemLink>

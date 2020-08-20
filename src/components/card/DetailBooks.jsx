@@ -26,7 +26,7 @@ class DetailBooks extends Component{
     const id = this.props.match.params.book_id
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/books/' + id,
+      url: 'http://http://54.85.133.10/library/v1/books/' + id,
       headers: {
         Authorization: token
       }

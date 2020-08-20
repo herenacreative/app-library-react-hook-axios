@@ -82,7 +82,7 @@ const EditAuthors = (props) => {
     const id = props.match.params.author_id
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/authors/' + id,
+      url: 'http://http://54.85.133.10/library/v1/authors/' + id,
       headers: {
         Authorization: token
       }
@@ -98,28 +98,30 @@ const EditAuthors = (props) => {
   }, [])
 
   const handleSubmit = (e) => {
+    console.log(props.match.params.author_id, 'f')
     e.preventDefault()
-    const token = props.auth.data.token
-    const id = props.match.params.author_id
-    const formData = new FormData();
-    formData.append('author_name', EditAuthor.author_name)
-    axios({
-      method: 'PUT',
-      url:'http://localhost:8080/v1/authors/' + id,
-      data: formData,
-      headers: {
-        Authorization: token,
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(function (response) {
-        console.log(response)
-        localStorage.setItem('token', response.data.data[0].token)
-        localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
-      })
-    .catch(function (error) {
-        console.log(error)
-    }) 
+    alert('hi')
+    // const token = props.auth.data.token
+    // const id = props.match.params.author_id
+    // const formData = new FormData();
+    // formData.append('author_name', EditAuthor.author_name)
+    // axios({
+    //   method: 'PUT',
+    //   url:'http://http://54.85.133.10/library/v1/authors/' + id,
+    //   data: formData,
+    //   headers: {
+    //     Authorization: token,
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
+    // .then(function (response) {
+    //     console.log(response)
+    //     localStorage.setItem('token', response.data.data[0].token)
+    //     localStorage.setItem('refreshToken', response.data.data[0].refreshToken)
+    //   })
+    // .catch(function (error) {
+    //     console.log(error)
+    // }) 
   }
 
   const history = useHistory();

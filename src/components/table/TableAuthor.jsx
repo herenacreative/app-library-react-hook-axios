@@ -43,7 +43,7 @@ const TableAuthor = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'GET',
-      url: 'http://localhost:8080/v1/authors?page=1&limit=100',
+      url: 'http://http://54.85.133.10/library/v1/authors?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -52,26 +52,28 @@ const TableAuthor = (props) => {
         setAuthor(res.data.data.results)
      })
      .catch(error=>{
-         console.log("Error")
+         console.log(error)
      })
   }, [])
 
-  const handleDelete= () =>{
+  const handleDelete= (id) =>{
+    console.log(props.match.params, 'au')
     const token = props.auth.data.token
-    const id = props.match.params.author_id
+    // const id = props.match.params.path
     axios({
       method: 'DELETE',
-      url: 'http://localhost:8080/v1/authors/' + id,
+      url: 'http://http://54.85.133.10/library/v1/authors/' + id,
       headers: {
         Authorization: token
       }
     })
     .then((res)=>{
       console.log(res)
-      setAuthor(res.data.data)
+      window.location.reload();
+      // setAuthor(res.data.data)
     })
     .catch((err)=>{
-      console.log(err.res)
+      console.log(err)
     })
   }
 
@@ -97,23 +99,24 @@ const TableAuthor = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {authors.map(Author => (
-                <TableRow key={Author.author_id}>
+              {authors.map(data => (
+                <TableRow key={data.author_id}>
                   <TableCell>
-                    <Link to={`/Author/${Author.author_id}`}>
+                    <Link to={`/Author/${data.author_id}`}>
                       <EditAuthor 
-                        authorName={Author} 
+                        authorName={data} 
                         match={props.match}
                       />
                     </Link>
-                    <Link to={`/Author/${Author.author_id}`}> 
-                      <Button onClick={()=>handleDelete(Author.author_id)}>
+                    <Link to={`/Author/${data.author_id}`}> 
+                      {data.author_id}
+                      <Button onClick={()=>handleDelete(data.author_id)}>
                         <DeleteSweepTwoToneIcon/>
                       </Button>
                     </Link>
                   </TableCell>
                   <TableCell align="right" component="th" scope="row">
-                    {Author.author_name}
+                    {data.author_name}
                   </TableCell>
                 </TableRow>
               ))}

@@ -5,9 +5,10 @@ import Input from '../inputs/Input'
 import AuthHeader from '../Auth/AuthHeader'
 import CopyRightAuth from '../Auth/CopyRightAuth'
 import styles from './FormRegister.module.css';
+import { useHistory, Link } from "react-router-dom";
 import Buttons from '../inputs/Buttons'
 import axios from 'axios'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormRegister(props) {
   const classes = useStyles();
+  const history = useHistory();
 
   const [userRegister, setUserRegister] = useState(
     {username: '', fullname: '', email:'', password: ''}
@@ -38,7 +40,7 @@ export default function FormRegister(props) {
    
     axios({
       method: 'POST',
-      url:'http://localhost:8080/v1/auth/register',
+      url:'http://http://54.85.133.10/library/v1/auth/register',
       data: userRegister
     })
     .then(function (response) {
@@ -48,6 +50,7 @@ export default function FormRegister(props) {
         title: 'Registrasi Success',
         timer: 1500
       })
+      history.push("/login")
     })
     .catch(function (error) {
         console.log(error)

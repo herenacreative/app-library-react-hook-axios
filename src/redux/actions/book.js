@@ -6,7 +6,7 @@ export const getBook = (token, params = "") =>{
         type: "GET_BOOK",
         payload: axios({
             method: 'GET',
-            url: `http://localhost:8080/v1/books${getID}`,
+            url: `http://http://54.85.133.10/library/v1/books${getID}`,
             headers: {
               Authorization: token
             }
@@ -19,7 +19,7 @@ export const getBookId = (token, id) =>{
         type: "GET_BOOK_ID",
         payload: axios({
             method: 'GET',
-            url: 'http://localhost:8080/v1/books/' + id,
+            url: 'http://http://54.85.133.10/library/v1/books/' + id,
             headers: {
               Authorization: token
             }
@@ -32,7 +32,7 @@ export const postBook = (formData, token) =>{
         type: "POST_BOOK",
         payload: axios({
             method: 'POST',
-            url:'http://localhost:8080/v1/books',
+            url:'http://http://54.85.133.10/library/v1/books',
             data: formData,
             headers: {
                 Authorization: token,
@@ -47,7 +47,7 @@ export const putBook = (formData, token, id) =>{
         type: "PUT_BOOK",
         payload: axios({
             method: 'PUT',
-            url:'http://localhost:8080/v1/books/' + id,
+            url:'http://http://54.85.133.10/library/v1/books/' + id,
             data: formData,
             headers: {
               Authorization: token,
@@ -62,7 +62,7 @@ export const deleteBook = (token, id) =>{
         type: "DELETE_BOOK",
         payload: axios({
             method: 'DELETE',
-            url: 'http://localhost:8080/v1/books/' + id,
+            url: 'http://http://54.85.133.10/library/v1/books/' + id,
             headers: {
               Authorization: token
             }
