@@ -9,7 +9,7 @@ class DetailBook extends Component {
   }
   
   render(){
-    console.log(this.props.history, 'hs')
+    // console.log(this.props.history, 'hs')
     return (
       <>
        <DetailBooks match={this.props.match}/>

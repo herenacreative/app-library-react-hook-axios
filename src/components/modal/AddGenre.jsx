@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { withStyles, } from '@material-ui/core/styles';
 import {Button, Dialog, Typography, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -8,8 +8,6 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import axios from 'axios'
 import {connect} from 'react-redux'
-import { useHistory, Link } from "react-router-dom";
-import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 
 const styles = (theme) => ({
   root: {
@@ -58,9 +56,8 @@ const styles = (theme) => ({
 
 //dialog 
 
-const EditAuthors = (props) => {
+const AddGenres = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [EditAuthor, setEditAuthor] = useState([]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -69,33 +66,15 @@ const EditAuthors = (props) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    const token = props.auth.data.token
-    const id = props.match.params.author_id
-    axios({
-      method: 'GET',
-      url: 'http://http://54.85.133.10/library/v1/authors/' + id,
-      headers: {
-        Authorization: token
-      }
-    })
-    .then((res)=>{
-      setEditAuthor({
-        Books: res.data.data[0]
-      })
-    })
-    .catch((err)=>{
-      console.log(err.res)
-    })    
-  }, [])
+  const [AddGenre, setAddGenre] = useState({genre_name: ''});
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const token = props.auth.data.token
     axios({
-      method: 'PUT',
-      url:'http://http://54.85.133.10/library/v1/authors/',
-      data: EditAuthor,
+      method: 'POST',
+      url:'http://http://54.85.133.10/library/v1/genres',
+      data: AddGenre,
       headers: {
         Authorization: token
       }
@@ -110,31 +89,25 @@ const EditAuthors = (props) => {
     }) 
   }
 
-  const history = useHistory();
-
-  function refreshPage() {
-    window.location.reload(false);
-    history.push("/author")
-  }
-
   return (
     <div>
       <Button variant="outlined" color="default" onClick={handleClickOpen}>
-        <EditTwoToneIcon fontSize="small"/>
+        Add Genre
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Edit Author
+          Add Genre
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent dividers>
-
-<Input label='Title' value={EditAuthor.author_name} onChange={(id, val)=>setEditAuthor({...EditAuthor, author_name: val})} type='text' />
-           
-
+            <Input label='Title' 
+              value={AddGenre.genre_name} 
+              onChange={(id, val)=>setAddGenre({...AddGenre, genre_name: val})}
+              type='text'
+            />
           </DialogContent>
           <DialogActions>
-            <Button onClick={refreshPage} type='submit' variant='contained' color='default'>Save</Button>
+            <Button type='submit' variant='contained' color='default'>Save</Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -145,4 +118,4 @@ const EditAuthors = (props) => {
 const mapStateToProps = (state) =>({
   auth: state.auth
 })
-export default connect(mapStateToProps)(EditAuthors)
+export default connect(mapStateToProps)(AddGenres)

@@ -8,6 +8,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import axios from 'axios'
 import {connect} from 'react-redux'
+import { useHistory, Link } from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -56,7 +57,7 @@ const styles = (theme) => ({
 
 //dialog 
 
-const AddGenres = (props) => {
+const AddAuthors = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,15 +67,15 @@ const AddGenres = (props) => {
     setOpen(false);
   };
 
-  const [AddGenre, setAddGenre] = useState({genre_name: ''});
+  const [AddAuthor, setAddAuthor] = useState({author_name: ''});
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const token = props.auth.data.token
     axios({
       method: 'POST',
-      url:'http://localhost:8080/v1/genres',
-      data: AddGenre,
+      url:'http://http://54.85.133.10/library/v1/authors',
+      data: AddAuthor,
       headers: {
         Authorization: token
       }
@@ -89,25 +90,32 @@ const AddGenres = (props) => {
     }) 
   }
 
+  const history = useHistory();
+
+  function refreshPage() {
+    window.location.reload(false);
+    history.push("/author")
+  }
+
   return (
     <div>
       <Button variant="outlined" color="default" onClick={handleClickOpen}>
-        Add Genre
+        Add Author
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Add Genre
+          Add Author
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent dividers>
             <Input label='Title' 
-              value={AddGenre.genre_name} 
-              onChange={(id, val)=>setAddGenre({...AddGenre, genre_name: val})}
+              value={AddAuthor.author_name} 
+              onChange={(id, val)=>setAddAuthor({...AddAuthor, author_name: val})}
               type='text'
             />
           </DialogContent>
           <DialogActions>
-            <Button type='submit' variant='contained' color='default'>Save</Button>
+            <Button onClick={refreshPage} type='submit' variant='contained' color='default'>Save</Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -118,4 +126,4 @@ const AddGenres = (props) => {
 const mapStateToProps = (state) =>({
   auth: state.auth
 })
-export default connect(mapStateToProps)(AddGenres)
+export default connect(mapStateToProps)(AddAuthors)
