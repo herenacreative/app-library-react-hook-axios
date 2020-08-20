@@ -43,7 +43,7 @@ const TableGenre = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'GET',
-      url: 'http://http://54.85.133.10/library/v1/genres?page=1&limit=100',
+      url: 'http://54.85.133.10/library/v1/genres?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -62,7 +62,7 @@ const TableGenre = (props) => {
     // const id = props.match.params.author_id
     axios({
       method: 'DELETE',
-      url: 'http://http://54.85.133.10/library/v1/genres/' + id,
+      url: 'http://54.85.133.10/library/v1/genres/' + id,
       headers: {
         Authorization: token
       }

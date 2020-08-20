@@ -43,7 +43,7 @@ const TableAuthor = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'GET',
-      url: 'http://http://54.85.133.10/library/v1/authors?page=1&limit=100',
+      url: 'http://54.85.133.10/library/v1/authors?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -62,7 +62,7 @@ const TableAuthor = (props) => {
     // const id = props.match.params.path
     axios({
       method: 'DELETE',
-      url: 'http://http://54.85.133.10/library/v1/authors/' + id,
+      url: 'http://54.85.133.10/library/v1/authors/' + id,
       headers: {
         Authorization: token
       }

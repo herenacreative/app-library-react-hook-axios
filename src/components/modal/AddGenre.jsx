@@ -73,7 +73,7 @@ const AddGenres = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'POST',
-      url:'http://http://54.85.133.10/library/v1/genres',
+      url:'http://54.85.133.10/library/v1/genres',
       data: AddGenre,
       headers: {
         Authorization: token

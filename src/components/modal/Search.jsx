@@ -84,7 +84,7 @@ const Searching = (props) => {
     // const search= props.history.push()
     axios({
       method: "GET",
-      url: `http://http://54.85.133.10/library/v1/books`,
+      url: `http://54.85.133.10/library/v1/books`,
       headers: {
         Authorization: token,
       },
@@ -121,7 +121,7 @@ const Searching = (props) => {
     console.log(params, "par");
     // axios({
     //   method: 'GET',
-    //   url: `http://http://54.85.133.10/library/v1/books${params}`,
+    //   url: `http://54.85.133.10/library/v1/books${params}`,
     //   headers: {
     //     Authorization: token
     //   }

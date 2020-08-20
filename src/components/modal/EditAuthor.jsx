@@ -82,7 +82,7 @@ const EditAuthors = (props) => {
     const id = props.match.params.author_id
     axios({
       method: 'GET',
-      url: 'http://http://54.85.133.10/library/v1/authors/' + id,
+      url: 'http://54.85.133.10/library/v1/authors/' + id,
       headers: {
         Authorization: token
       }
@@ -107,7 +107,7 @@ const EditAuthors = (props) => {
     // formData.append('author_name', EditAuthor.author_name)
     // axios({
     //   method: 'PUT',
-    //   url:'http://http://54.85.133.10/library/v1/authors/' + id,
+    //   url:'http://54.85.133.10/library/v1/authors/' + id,
     //   data: formData,
     //   headers: {
     //     Authorization: token,

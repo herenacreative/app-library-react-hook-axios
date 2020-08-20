@@ -50,7 +50,7 @@ export default function MenuListComposition(props) {
   // GetGenres = () => {
   //   axios({
   //     method: 'GET',
-  //     url:'http://http://54.85.133.10/library/v1/genres',
+  //     url:'http://54.85.133.10/library/v1/genres',
   //     data: names
   //   })
   //   .then(function (response) {
@@ -65,7 +65,7 @@ export default function MenuListComposition(props) {
   // }
 
   useEffect(() => {
-    axios.get('http://http://54.85.133.10/library/v1/genres')
+    axios.get('http://54.85.133.10/library/v1/genres')
         .then(res => {
             setNames(res.names);
             setLoad(true);

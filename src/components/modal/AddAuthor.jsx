@@ -74,7 +74,7 @@ const AddAuthors = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'POST',
-      url:'http://http://54.85.133.10/library/v1/authors',
+      url:'http://54.85.133.10/library/v1/authors',
       data: AddAuthor,
       headers: {
         Authorization: token
