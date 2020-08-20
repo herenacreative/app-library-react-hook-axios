@@ -16,11 +16,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import {connect} from 'react-redux'
-import swal from 'sweetalert2'
 import { useHistory } from "react-router-dom";
 import { postBook, getBook } from "../../redux/actions/book"
 import { getAuthor } from "../../redux/actions/author"
 import { getGenre} from "../../redux/actions/genre"
+import Swal from 'sweetalert2'
 
 const styles = (theme) => ({
   root: {
@@ -97,6 +97,12 @@ const AddBooks = (props) => {
   
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Created Book Success',
+      timer: 1500
+    })
     const token = props.auth.data.token
     const formData = new FormData();
     formData.append('book_name', AddBook.book_name)

@@ -59,7 +59,7 @@ class Home extends Component{
             <h1>List Book</h1>
             <BookCards/>
 
-            <div>
+            <div style = {{marginTop: '5%'}}>
               <Pagination count={10} />
             </div>
             

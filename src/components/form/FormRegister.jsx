@@ -8,6 +8,7 @@ import styles from './FormRegister.module.css';
 import Buttons from '../inputs/Buttons'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,10 +43,20 @@ export default function FormRegister(props) {
     })
     .then(function (response) {
           console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Registrasi Success',
+        timer: 1500
       })
+    })
     .catch(function (error) {
         console.log(error)
         console.log(error.response)
+         Swal.fire({
+          icon: 'error',
+          title: 'Registrasi Failed',
+          timer: 1500
+        })
     }) 
   }
 

@@ -23,6 +23,7 @@ import { putBook, getBook, getBookId } from "../../redux/actions/book";
 import { getAuthor } from "../../redux/actions/author";
 import { getGenre } from "../../redux/actions/genre";
 import EditTwoToneIcon from "@material-ui/icons/EditTwoTone";
+import Test from "./Test";
 
 const styles = (theme) => ({
   root: {
@@ -85,18 +86,18 @@ const EditBooks = (props) => {
     genre_name: "",
     stock: "",
   });
-
+  const {book_name,author_id, author_name,book_id,description,genre_id,genre_name,image,status,stock} = props.bookDetail;
   const handleClickOpen = () => {
     setBooks({
       ...Books,
-      book_name: props.bookDetail.book_name,
-      author_name: props.bookDetail.author_name,
-      book_id: props.bookDetail.book_id,
-      description: props.bookDetail.description,
-      genre_name: props.bookDetail.genre_name,
-      image: props.bookDetail.image,
-      status: props.bookDetail.status,
-      stock: props.bookDetail.stock,
+      book_name,
+      author_name,
+      book_id,
+      description,
+      genre_name,
+      image,
+      status,
+      stock,
     });
     setOpen(true);
   };
@@ -154,8 +155,7 @@ const EditBooks = (props) => {
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
-      >
+        open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Edit Data
         </DialogTitle>
@@ -169,19 +169,19 @@ const EditBooks = (props) => {
               onChange={(id, val) => setBooks({ ...Books, book_name: val })}
               type="text"
             />
-
-            <TextField
+            {props.match.path.split('/')[1] !== 'book' && <Input
               style={{ marginLeft: 10 }}
               label="Url Image"
               onChange={(e) => setBooks({ ...Books, image: e.target.files[0] })}
               type="file"
-            />
+            />}
 
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <FormControl style={{ marginLeft: 12, marginTop: 12 }}>
                   <InputLabel id="demo-simple-select-label">Genre</InputLabel>
                   <Select
+                    defaultValue={genre_id}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={Books.genre_id}
@@ -201,16 +201,17 @@ const EditBooks = (props) => {
                 <FormControl style={{ marginLeft: 12 }}>
                   <InputLabel id="demo-simple-select-label">Author</InputLabel>
                   <Select
+                  defaultValue={author_id}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={Books.author_id}
-                    onChange={(e) =>
-                      setBooks({ ...Books, author_id: e.target.value })
+                    onChange={(id, val) =>
+                      setBooks({ ...Books, author_id: val })
                     }
                   >
-                    {props.author.data.map((author) => (
-                      <MenuItem value={author.author_id}>
-                        {author.author_name}
+                    {props.author.data.map((datas) => (
+                      <MenuItem value={datas.author_id}>
+                        {datas.author_name}
                       </MenuItem>
                     ))}
                   </Select>

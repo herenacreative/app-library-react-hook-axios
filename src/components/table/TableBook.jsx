@@ -8,7 +8,8 @@ import {
   TableRow,
   Paper,
   Button,
-  Grid
+  Grid,
+  Input
  } from '@material-ui/core';
 import DeleteSweepTwoToneIcon from '@material-ui/icons/DeleteSweepTwoTone';
 import {connect} from 'react-redux'
@@ -40,7 +41,9 @@ const TableBook = (props) => {
   const classes = useStyles();
   const [books, setBook] = useState([])
 
+
   useEffect(() => { 
+    console.log(props, 'propsss')
     const token = props.auth.data.token
     axios({
       method: 'GET',
@@ -49,7 +52,7 @@ const TableBook = (props) => {
         Authorization: token
       }
     })
-    .then(res => {               
+    .then(res => {     
         setBook(res.data.data.results)
      })
      .catch(error=>{
@@ -94,13 +97,20 @@ const TableBook = (props) => {
   //     console.log(err.res)
   //   })
   // }
-  const handleDelete = () =>{
-    const token = props.auth.data.token
-    const id = props.match.params.book_id
+  const handleDelete = (id) =>{
+    const token = props.auth.data.token;
     props.deleteBook(token, id)
-    window.location.reload();
+    .then(res => {
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err.response);
+    })
   }
-
+  const handleNewImage = (e, data) => {
+    e.preventDefault();
+    console.log(e.target.value, data);
+  }
   return (
     <>
       <main className={classes.content}>
@@ -160,7 +170,9 @@ const TableBook = (props) => {
                     {Book.genre_name}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                  {Book.image.length > 10
+                    <img src={`http://localhost:8080/uploads/${Book.image}`} height="100" width="100" />
+                    <input type="file" onChange={(e) => handleNewImage(e, Book)} />
+                  {/* {Book.image.length > 10
 													? `${Book.image
 															.split(' ')
 															.join(' ')
@@ -168,7 +180,7 @@ const TableBook = (props) => {
 													: `${Book.image
 															.split(' ')
 															.join(' ')
-															.slice(0, Book.image.length)}`}
+															.slice(0, Book.image.length)}`} */}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {Book.description.length > 100

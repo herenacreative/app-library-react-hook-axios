@@ -7,6 +7,7 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
+  Grid
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { connect } from "react-redux";
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sort: {
-    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(5),
+    width: "50%",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -163,40 +165,47 @@ const Searching = (props) => {
   // {console.log(search)}
   return (
     <div>
-      <form>
-        <div>
-          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
-          <Select
-            name="sort"
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            onChange={(e) => setSort(e.target.value)}
-            // className = {classes.sort}
-          >
-            <MenuItem value="book_name">Name</MenuItem>
-            <MenuItem value="author_name">Author</MenuItem>
-            <MenuItem value="genre_name">Genre</MenuItem>
-          </Select>
-        </div>
-      </form>
-      <form onSubmit={(e) => searchBook(e)}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            name="search"
-            value={search}
-            placeholder="Search…"
-            onChange={(e) => setSearch(e.target.value)}
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ "aria-label": "search" }}
-          />
-        </div>
-      </form>
+      <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <form>
+            <div>
+              <FormControl className={classes.sort}>
+              <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+              <Select
+                name="sort"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <MenuItem value="book_name">Name</MenuItem>
+                <MenuItem value="author_name">Author</MenuItem>
+                <MenuItem value="genre_name">Genre</MenuItem>
+              </Select>
+              </FormControl>
+            </div>
+          </form>
+        </Grid>
+        <Grid item xs={8}>
+          <form onSubmit={(e) => searchBook(e)}>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                name="search"
+                value={search}
+                placeholder="Search…"
+                onChange={(e) => setSearch(e.target.value)}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div>
+          </form>
+        </Grid>
+      </Grid>
     </div>
   );
 };

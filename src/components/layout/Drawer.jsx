@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, IconButton, Avatar, List, ListItem, Button} from '@material-ui/core';
+import { Drawer, IconButton, Avatar, List, ListItem, Button, Typography, Box} from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import img from '../../assets/avatar3.png';
@@ -48,6 +48,7 @@ const Drawers = (props) => {
     // props.logout();
     props.history.push("/");
   };
+  // console.log(props.auth.data.email, 'propssssss')
 
   const list = (anchor) => (
     <div
@@ -59,6 +60,9 @@ const Drawers = (props) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
         <Avatar alt="Logo" src={img} className={classes.large} />
+      <Box textAlign="center" m={1} fontSize={24} fontWeight="fontWeightBold">
+       {props.auth.data.username}
+      </Box>
         <List component="nav">
         <ListItemLink>
         <Link to={`/explore`}><Button>Explore</Button></Link>
@@ -66,6 +70,13 @@ const Drawers = (props) => {
         <ListItemLink>
         <Link to={`/history`}><Button>History</Button></Link>
         </ListItemLink>
+
+         <ListItemLink>
+                <Link to={`/book`}>
+                    <Button>Book</Button>
+                </Link>
+            </ListItemLink>
+            
         <ListItemLink>
           <Button onClick={logout}>Logout</Button>
         </ListItemLink>

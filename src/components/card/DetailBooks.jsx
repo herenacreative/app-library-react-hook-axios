@@ -49,7 +49,7 @@ class DetailBooks extends Component{
     window.location.reload();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.getDetailBooks()
   }
 
@@ -113,7 +113,7 @@ class DetailBooks extends Component{
                       style={Styles.media}
                       image={`http://localhost:8080/uploads/${book.image}`}/>
                     </div>
-                    <EditBooks 
+                    {/* <EditBooks 
                       bookDetail={book} 
                       match={this.props.match}
                     />
@@ -122,7 +122,7 @@ class DetailBooks extends Component{
                       variant='contained' 
                       color='default'>
                         Delete
-                    </Button>
+                    </Button> */}
                   </Grid>
                 </Grid>
               </Container>
