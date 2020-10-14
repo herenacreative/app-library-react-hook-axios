@@ -2,7 +2,7 @@
 -- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
+-- Host: localhost:3000:3306
 -- Generation Time: Jul 09, 2020 at 03:04 AM
 -- Server version: 5.7.29-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.3

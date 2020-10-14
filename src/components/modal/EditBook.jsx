@@ -77,42 +77,30 @@ const DialogActions = withStyles((theme) => ({
 
 const EditBooks = (props) => {
   const [open, setOpen] = React.useState(false);
+  const {book_id, book_name,author_id, author_name,description,genre_id,genre_name,image,status,stock} = props.bookDetail;
   const [Books, setBooks] = useState({
-    book_name: "",
-    // image: "",
-    description: "",
-    status: "",
-    author_name: "",
-    genre_name: "",
-    stock: "",
+    book_id,
+    book_name,
+    image,
+    description,
+    status,
+    author_name,
+    author_id,
+    genre_id,
+    genre_name,
+    stock,
   });
-  const {book_name,author_id, author_name,book_id,description,genre_id,genre_name,image,status,stock} = props.bookDetail;
-  const handleClickOpen = () => {
-    setBooks({
-      ...Books,
-      book_name,
-      author_name,
-      book_id,
-      description,
-      genre_name,
-      // image,
-      status,
-      stock,
-    });
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const history = useHistory();
+  
+  // useEffect(() => {
+  //   const token = props.auth.data.token;
+  //   const id = props.match.params.book_id;
+  //   props.getBookId(token, id);
+  // }, []);
 
   useEffect(() => {
-    console.log(Books);
-    const token = props.auth.data.token;
-    const id = props.match.params.book_id;
-    props.getBookId(token, id);
-  }, []);
-
+    console.log(Books.image)
+  }, [Books]);
   useEffect(() => {
     const token = props.auth.data.token;
     props.getAuthor(token);
@@ -123,24 +111,38 @@ const EditBooks = (props) => {
     props.getGenre(token);
   }, []);
 
-  const history = useHistory();
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+ 
+
+  const handleSubmit = () => {
     const token = props.auth.data.token;
-    const id = props.match.params.book_id;
+    // const id = props.match.params.book_id;
     const formData = new FormData();
     formData.append("book_name", Books.book_name);
-    // formData.append("image", Books.image);
+    formData.append("image", Books.image);
     formData.append("genre_id", Books.genre_id);
     formData.append("author_id", Books.author_id);
     formData.append("description", Books.description);
     formData.append("status", Books.status);
     formData.append("stock", Books.stock);
-    props.putBook(formData, token, id).then(() => {
-      props.getBook(token);
+    delete formData['book_id'];
+    delete formData['author_name'];
+    delete formData['genre_name'];
+    
+    props.putBook(formData, token, book_id)
+    .then((res) => {
+      window.location.reload();
+    }).catch(err => {
+      console.log(err.response)
     });
-    window.location.reload();
     // history.push(`/book/${id}`);
   };
 
@@ -159,8 +161,7 @@ const EditBooks = (props) => {
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Edit Data
         </DialogTitle>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => console.log(e)}>
           <DialogContent dividers>
             <Input
               label="Title"
@@ -169,12 +170,12 @@ const EditBooks = (props) => {
               onChange={(id, val) => setBooks({ ...Books, book_name: val })}
               type="text"
             />
-            {props.match.path.split('/')[1] !== 'book' && <Input
+            {/* {props.match.path.split('/')[1] !== 'book' && <Input
               style={{ marginLeft: 10 }}
               label="Url Image"
               onChange={(e) => setBooks({ ...Books, image: e.target.files[0] })}
               type="file"
-            />}
+            />} */}
 
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -205,8 +206,8 @@ const EditBooks = (props) => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={Books.author_id}
-                    onChange={(id, val) =>
-                      setBooks({ ...Books, author_id: val })
+                    onChange={(e) =>
+                      setBooks({ ...Books, author_id: e.target.value })
                     }
                   >
                     {props.author.data.map((datas) => (
@@ -238,11 +239,12 @@ const EditBooks = (props) => {
             />
           </DialogContent>
           <DialogActions>
-            <Button type="submit" variant="contained" color="default">
+            <Button type="submit" variant="contained" color="default" onClick={() => handleSubmit()}>
               Save
             </Button>
           </DialogActions>
         </form>
+     
       </Dialog>
     </div>
   );

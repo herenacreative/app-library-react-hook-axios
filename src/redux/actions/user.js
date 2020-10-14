@@ -5,7 +5,7 @@ export const getUser = token =>{
         type: "GET_USER",
         payload: axios({
             method: 'GET',
-            url: 'http://54.85.133.10/library/v1/user?page=1&limit=100',
+            url: 'http://localhost:3000/library/v1/user?page=1&limit=100',
             headers: {
               Authorization: token
             }
@@ -18,7 +18,7 @@ export const getUserId = (token, id) =>{
         type: "GET_USER_ID",
         payload: axios({
             method: 'GET',
-            url: 'http://54.85.133.10/library/v1/user/' + id,
+            url: 'http://localhost:3000/library/v1/user/' + id,
             headers: {
               Authorization: token
             }

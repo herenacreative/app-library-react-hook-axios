@@ -76,11 +76,12 @@ const EditGenre = (props) => {
   };
 
   useEffect(() => {
+    console.log(props.match.params.genre_id, 'idssss')
     const token = props.auth.data.token
     const id = props.match.params.genre_id
     axios({
       method: 'GET',
-      url: 'http://54.85.133.10/library/v1/genres/' + id,
+      url: 'http://localhost:3000/library/v1/genres/' + id,
       headers: {
         Authorization: token
       }
@@ -103,7 +104,7 @@ const EditGenre = (props) => {
     formData.append('genre_name', genres.genre_name)
     axios({
       method: 'PUT',
-      url:'http://54.85.133.10/library/v1/genres/' + id,
+      url:'http://localhost:3000/library/v1/genres/' + id,
       data: formData,
       headers: {
         Authorization: token,

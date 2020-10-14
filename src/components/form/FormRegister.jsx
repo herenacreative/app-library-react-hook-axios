@@ -40,7 +40,7 @@ export default function FormRegister(props) {
    
     axios({
       method: 'POST',
-      url:'http://54.85.133.10/library/v1/auth/register',
+      url:'http://localhost:3000/library/v1/auth/register',
       data: userRegister
     })
     .then(function (response) {

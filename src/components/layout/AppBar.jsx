@@ -80,7 +80,7 @@ const SearchApp = (props) => {
     // const params = props.history.push('')
     axios({
       method: 'GET',
-      url: `http://54.85.133.10/library/v1/books?search=${params}`,
+      url: `http://localhost:3000/library/v1/books?search=${params}`,
       headers: {
         Authorization: token
       }

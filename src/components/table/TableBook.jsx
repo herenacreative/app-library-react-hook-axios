@@ -47,7 +47,7 @@ const TableBook = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'GET',
-      url: 'http://54.85.133.10/library/v1/books?page=1&limit=100',
+      url: 'http://localhost:3000/library/v1/books?page=1&limit=100',
       headers: {
         Authorization: token
       }
@@ -65,7 +65,7 @@ const TableBook = (props) => {
   //   const id = props.match.params.book_id
   //   axios({
   //     method: 'GET',
-  //     url: 'http://54.85.133.10/library/v1/books/' + id,
+  //     url: 'http://localhost:3000/library/v1/books/' + id,
   //     headers: {
   //       Authorization: token
   //     }
@@ -84,7 +84,7 @@ const TableBook = (props) => {
   //   const id = props.match.params.author_id
   //   axios({
   //     method: 'DELETE',
-  //     url: 'http://54.85.133.10/library/v1/books/' + id,
+  //     url: 'http://localhost:3000/library/v1/books/' + id,
   //     headers: {
   //       Authorization: token
   //     }
@@ -170,7 +170,7 @@ const TableBook = (props) => {
                     {Book.genre_name}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    <img src={`http://localhost:8080/uploads/${Book.image}`} height="100" width="100" />
+                    <img src={`http://localhost:3000/library/v1/uploads/${Book.image}`} height="100" width="100" />
                     <input type="file" onChange={(e) => handleNewImage(e, Book)} />
                   {/* {Book.image.length > 10
 													? `${Book.image

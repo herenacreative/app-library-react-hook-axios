@@ -13,7 +13,6 @@ import ZoomInTwoToneIcon from '@material-ui/icons/ZoomInTwoTone';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { getBook } from "../../redux/actions/book"
-
 class BookCard extends Component{
   constructor(props){
     super(props)
@@ -50,7 +49,9 @@ class BookCard extends Component{
     return (
       <>
         <Grid container spacing={3}>
-        {this.props.book.data.map((b)=>{
+        {this.props.book.data
+          ? this.props.book.data.length > 0 
+            ? this.props.book.data.map((b)=>{
           return <>
             <Grid item xs={6} sm={3} >
             <Link to={`/home/${b.book_id}`} style={{textDecoration: 'none'}}>
@@ -58,7 +59,7 @@ class BookCard extends Component{
                 <CardActionArea>
                   <CardMedia
                     style={Styles.media}
-                    image={`http://localhost:8080/uploads/${b.image}`}
+                    image={`http://localhost:3000/library/v1/uploads/${b.image}`}
                   />
                   <CardContent>
                     <Typography variant="subtitle2" gutterBottom align="center">
@@ -82,10 +83,14 @@ class BookCard extends Component{
               </Link>
             </Grid>
           </>
-        })}
+        })
+            : <p>Data Kosong</p>
+          : <p>Loading...</p>
+        }
         </Grid>
       </>
-  );
+  )
+  ;
 }}
 
 const mapStateToProps = (state) =>({

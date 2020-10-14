@@ -74,7 +74,7 @@ const EditAuthors = (props) => {
     const id = props.match.params.author_id
     axios({
       method: 'GET',
-      url: 'http://54.85.133.10/library/v1/authors/' + id,
+      url: 'http://localhost:3000/library/v1/authors/' + id,
       headers: {
         Authorization: token
       }
@@ -94,7 +94,7 @@ const EditAuthors = (props) => {
     const token = props.auth.data.token
     axios({
       method: 'PUT',
-      url:'http://54.85.133.10/library/v1/authors/',
+      url:'http://localhost:3000/library/v1/authors/',
       data: EditAuthor,
       headers: {
         Authorization: token

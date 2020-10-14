@@ -26,7 +26,7 @@ class DetailBooks extends Component{
     const id = this.props.match.params.book_id
     axios({
       method: 'GET',
-      url: 'http://54.85.133.10/library/v1/books/' + id,
+      url: 'http://localhost:3000/library/v1/books/' + id,
       headers: {
         Authorization: token
       }
@@ -111,13 +111,13 @@ class DetailBooks extends Component{
                     <div style={Styles.imgs}>
                       <CardMedia
                       style={Styles.media}
-                      image={`http://localhost:8080/uploads/${book.image}`}/>
+                      image={`http://localhost:3000/library/v1/uploads/${book.image}`}/>
                     </div>
                     {/* <EditBooks 
                       bookDetail={book} 
                       match={this.props.match}
-                    />
-                    <Button style={{marginTop: 10}} 
+                    /> */}
+                    {/* <Button style={{marginTop: 10}} 
                       onClick={()=>this.DeleteBookId(book.book_id)} 
                       variant='contained' 
                       color='default'>
